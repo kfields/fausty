@@ -1,4 +1,4 @@
-#include <fausty/view/faustyview.h>
+#include <fausty/widget/view/faustyview.h>
 #include "faustyapp.h"
 
 bool FaustyApp::booted_ = false;

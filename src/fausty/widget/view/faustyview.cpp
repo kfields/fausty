@@ -1,5 +1,5 @@
 #include "faustyview.h"
-#include "widget/widget_manager.h"
+#include "../widget_manager.h"
 
 bool FaustyView::booted_ = false;
 

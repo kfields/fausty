@@ -1,12 +1,17 @@
 #include "imgui.h"
 #include "imnodes.h"
 
-#include "widget/widget.h"
-
 #include "rack_view.h"
 #include <fausty/rack/rack.h>
 #include <fausty/rack/pin.h>
 #include <fausty/rack/wire.h>
+
+RackView::~RackView() {
+  if (root_) {
+    delete root_;
+    root_ = nullptr;
+  }
+}
 
 void RackView::Draw() {
   if (root_ == nullptr) {
