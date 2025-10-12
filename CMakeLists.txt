@@ -1,0 +1,86 @@
+cmake_minimum_required(VERSION 3.15)
+
+include(cmake/Config.cmake)
+
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
+#set(BUILD_TESTING OFF CACHE BOOL "Build tests" FORCE)
+
+project(FaustyAll)
+#project(FaustyAll LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+#FMT BEGIN
+add_subdirectory(${FMT_ROOT})
+#FMT END
+
+#RTTR BEGIN
+#set(BUILD_RTTR_DYNAMIC OFF CACHE BOOL "" FORCE)
+#set(BUILD_UNIT_TESTS OFF CACHE BOOL "" FORCE)
+#set(BUILD_STATIC ON CACHE BOOL "" FORCE)
+#set(BUILD_WITH_STATIC_RUNTIME_LIBS ON CACHE BOOL "" FORCE)
+#set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+#set(BUILD_DOCUMENTATION OFF CACHE BOOL "" FORCE)
+#set(BUILD_INSTALLER OFF CACHE BOOL "" FORCE)
+#set(BUILD_PACKAGE OFF CACHE BOOL "" FORCE)
+#add_subdirectory(${RTTR_ROOT})
+#RTTR END
+
+#RTAUDIO BEGIN
+set(RTAUDIO_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+add_subdirectory(${RTAUDIO_ROOT})
+#RTAUDIO END
+
+#XTL BEGIN
+add_subdirectory(${XTL_ROOT})
+#XTL END
+
+#XTENSOR BEGIN
+add_subdirectory(${XTENSOR_ROOT})
+#XTENSOR END
+
+#IMGUI BEGIN
+add_subdirectory(${FAUSTY_ROOT}/src/imgui)
+#IMGUI END
+
+#IMPLOT BEGIN
+add_subdirectory(${FAUSTY_ROOT}/src/implot)
+#IMPLOT END
+
+#IMNODES BEGIN
+add_subdirectory(${FAUSTY_ROOT}/src/imnodes)
+#IMNODES END
+
+#IMKNOBS BEGIN
+add_subdirectory(${FAUSTY_ROOT}/src/imknobs)
+#IMKNOBS END
+
+#GLAD BEGIN
+if(${SHELL_BACKEND} STREQUAL "Gl3")
+  add_subdirectory(${GLAD_ROOT}/cmake)
+  glad_add_library(glad_gl_core_33 STATIC API gl:core=3.3)
+endif()
+#GLAD END
+
+#GLFW BEGIN
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(${GLFW_ROOT})
+#GLFW END
+
+#VST3SDK BEGIN
+set(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES OFF CACHE BOOL "Enable VST 3 Plug-in Examples" FORCE)
+set(SMTG_ENABLE_VST3_HOSTING_EXAMPLES OFF CACHE BOOL "Enable VST 3 Hosting Examples" FORCE)
+set(SMTG_ENABLE_VSTGUI_SUPPORT OFF CACHE BOOL "Enable VSTGUI Support" FORCE)
+add_subdirectory(${FAUSTY_DEPOT}/vst3sdk)
+#VST3SDK END
+
+#FAUSTY BEGIN
+add_subdirectory(src/fausty)
+#FAUSTY END
+
+#Examples
+add_subdirectory(examples)

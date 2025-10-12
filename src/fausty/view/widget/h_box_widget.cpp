@@ -1,0 +1,23 @@
+#include "imgui.h"
+
+#include "widget.h"
+#include <fausty/rack/control/h_box.h>
+
+class HBoxWidget : public WidgetT<HBox> {
+public:
+  HBoxWidget(HBox& model) : WidgetT<HBox>(model) {}
+  void Draw() override {
+    ImGui::BeginGroup();
+    ImGui::PushItemWidth(128);
+    DrawChildren();
+    ImGui::PopItemWidth();
+    ImGui::EndGroup();
+  }
+  virtual void DrawChild(Widget& child) override {
+    child.Draw();
+    if(widgets_.back() != &child)
+      ImGui::SameLine();
+  }
+  DECLARE_WIDGET(HBoxWidget, HBox)
+};
+DEFINE_WIDGET(HBoxWidget, HBox)

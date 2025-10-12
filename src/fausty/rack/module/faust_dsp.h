@@ -1,0 +1,24 @@
+#pragma once
+
+#include "dsp.h"
+
+//class UI;
+//TODO:Sholdn't have to include this.  Faust won't let you rename the UI class. :(
+#include "faust_ui.h"
+
+class FaustDsp : public Dsp
+{
+public:
+  virtual ~FaustDsp() {}
+  bool Create(Part& owner) override;
+  Audio ProcessAudio(Audio input = Audio()) override ;
+  void Process() override;
+  //Faust interface
+  virtual int getNumInputs() = 0;
+  virtual int getNumOutputs() = 0;
+  virtual void buildUserInterface(UI* ui) = 0;
+  virtual void init(int sample_rate) = 0;
+  virtual void compute(int len, fy_real** inputs, fy_real** outputs)= 0;
+
+  REFLECT_ENABLE(Dsp)
+};

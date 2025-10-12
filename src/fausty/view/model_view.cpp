@@ -1,0 +1,11 @@
+#include "imgui.h"
+#include "imnodes.h"
+
+#include "model_view.h"
+#include "widget/widget_builder.h"
+#include "widget/widget.h"
+
+void ModelView::Build() {
+  WidgetBuilder builder;
+  root_ = builder.Build(model());
+}

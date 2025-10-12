@@ -1,0 +1,14 @@
+{
+  "files.watcherExclude": {
+    "**/build/**": true,
+    "**/depot/**": true
+  },
+  "files.associations": {
+    "vector": "cpp",
+    "deque": "cpp",
+    "format": "cpp",
+    "list": "cpp",
+    "xstring": "cpp",
+    "random": "cpp"
+  }
+}

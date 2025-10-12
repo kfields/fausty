@@ -1,0 +1,20 @@
+#pragma once
+
+#include <fausty/audio.h>
+
+#include "port.h"
+
+class AudioOutport : public Outport {
+public:
+  virtual void CreatePin(std::string name) {
+    //AddPin(new )
+  }
+  void Write(Audio audio) {
+    audio_ = audio;
+    for(auto pin : pins_) {
+
+    }
+  }
+  //Data members
+  Audio audio_;
+};

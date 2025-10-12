@@ -1,0 +1,24 @@
+include_guard()
+
+#set(SHELL_PLATFORM Windows)
+set(SHELL_PLATFORM Linux)
+set(SHELL_BACKEND Gl3)
+#set(SHELL_BACKEND Dx12)
+
+
+set(FAUSTY_ROOT ${CMAKE_CURRENT_LIST_DIR}/..)
+set(FAUSTY_CMAKE ${FAUSTY_ROOT}/cmake)
+set(FAUSTY_DEPOT ${FAUSTY_ROOT}/depot)
+
+set(FMT_ROOT ${FAUSTY_DEPOT}/fmt)
+set(RTTR_ROOT ${FAUSTY_DEPOT}/rttr)
+set(RTAUDIO_ROOT ${FAUSTY_DEPOT}/rtaudio)
+set(XTENSOR_ROOT ${FAUSTY_DEPOT}/xtensor)
+set(XTL_ROOT ${FAUSTY_DEPOT}/xtl)
+set(IMGUI_ROOT ${FAUSTY_DEPOT}/imgui)
+set(IMGUI_EX ${FAUSTY_DEPOT}/imgui/backends)
+set(IMPLOT_ROOT ${FAUSTY_DEPOT}/implot)
+set(IMNODES_ROOT ${FAUSTY_DEPOT}/imnodes)
+set(IMKNOBS_ROOT ${FAUSTY_DEPOT}/imknobs)
+set(GLAD_ROOT ${FAUSTY_DEPOT}/glad)
+set(GLFW_ROOT ${FAUSTY_DEPOT}/glfw)
