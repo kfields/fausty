@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <thread>
 
 #include "imgui.h"
 
@@ -94,6 +93,5 @@ public:
   virtual void OnWindowFocus(int focused) {}
 
   // Data members
-  std::thread paint_thread_;
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 };

@@ -14,7 +14,7 @@
 class FrenchBellDspImpl : public FrenchBellDsp
 {
 public:
-  REFLECT_ENABLE(FaustDsp)
+  REFLECT_ENABLE(FrenchBellDsp)
 };
 
 class MyApp : public App
