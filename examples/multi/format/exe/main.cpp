@@ -13,6 +13,8 @@
 #include "osc_dsp.h"
 #include "freeverb_dsp.h"
 
+using namespace fausty;
+
 class OscDspImpl : public OscDsp
 {
   REFLECT_ENABLE(FaustDsp)

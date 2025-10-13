@@ -11,6 +11,8 @@
 
 #include "frenchbell_dsp.h"
 
+using namespace fausty;
+
 class FrenchBellDspImpl : public FrenchBellDsp
 {
 public:

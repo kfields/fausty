@@ -4,6 +4,7 @@
 #include "widget_builder.h"
 #include "widget.h"
 
+namespace fausty {
 
 Widget* WidgetBuilder::Build(Model& model) {
   auto type = ::reflect::get_type(model);
@@ -14,3 +15,5 @@ Widget* WidgetBuilder::Build(Model& model) {
   }
   return &widget;
 }
+
+} // namespace fausty

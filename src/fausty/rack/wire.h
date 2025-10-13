@@ -2,6 +2,8 @@
 
 #include <fausty/part.h>
 
+namespace fausty {
+
 class Pin;
 class Subscription;
 
@@ -13,3 +15,5 @@ public:
   Pin* output_ = nullptr;
   Subscription* subscription_ = nullptr;
 };
+
+} // namespace fausty

@@ -3,6 +3,8 @@
 #include "widget.h"
 #include <fausty/rack/control/h_box.h>
 
+namespace fausty {
+
 class HBoxWidget : public WidgetT<HBox> {
 public:
   HBoxWidget(HBox& model) : WidgetT<HBox>(model) {}
@@ -21,3 +23,5 @@ public:
   DECLARE_WIDGET(HBoxWidget, HBox)
 };
 DEFINE_WIDGET(HBoxWidget, HBox)
+
+} // namespace fausty

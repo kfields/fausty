@@ -12,6 +12,8 @@
 
 #include "chain_dsp.h"
 
+using namespace fausty;
+
 class ChainDspImpl : public ChainDsp
 {
   REFLECT_ENABLE(FaustDsp)

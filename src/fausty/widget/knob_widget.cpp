@@ -3,6 +3,8 @@
 #include "widget.h"
 #include <fausty/rack/control/knob.h>
 
+namespace fausty {
+
 class KnobWidget : public WidgetT<Knob> {
 public:
   KnobWidget(Knob& model) : WidgetT<Knob>(model) {}
@@ -13,3 +15,5 @@ public:
   DECLARE_WIDGET(HSliderWidget, HSlider)
 };
 DEFINE_WIDGET(KnobWidget, Knob)
+
+} // namespace fausty

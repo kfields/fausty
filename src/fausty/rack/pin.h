@@ -7,6 +7,8 @@
 
 #include <fausty/part.h>
 
+namespace fausty {
+
 class Node;
 class Wire;
 
@@ -78,3 +80,5 @@ public:
   // Data members
   T value_;
 };
+
+} // namespace fausty

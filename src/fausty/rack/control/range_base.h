@@ -1,6 +1,8 @@
 #pragma once
 #include "control.h"
 
+namespace fausty {
+
 class RangeBase : public Control {
 public:
     RangeBase(const char* label, fy_real* zone, fy_real init, fy_real min, fy_real max, fy_real step) :
@@ -13,3 +15,5 @@ public:
 
   REFLECT_ENABLE(Control)
 };
+
+} // namespace fausty

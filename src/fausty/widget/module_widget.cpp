@@ -4,6 +4,8 @@
 #include "module_widget.h"
 #include <fausty/rack/module/module.h>
 
+namespace fausty {
+
 void ModuleWidget::Draw() {
   if (!DrawNode()) return;
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
@@ -38,3 +40,5 @@ bool ModuleWidget::DrawNode() {
 }
 
 DEFINE_WIDGET(ModuleWidget, Module)
+
+} // namespace fausty

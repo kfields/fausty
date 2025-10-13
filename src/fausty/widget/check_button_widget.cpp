@@ -3,6 +3,8 @@
 #include "widget.h"
 #include <fausty/rack/control/check_button.h>
 
+namespace fausty {
+
 class CheckButtonWidget : public WidgetT<CheckButton> {
 public:
   CheckButtonWidget(CheckButton& model) : WidgetT<CheckButton>(model) {}
@@ -15,3 +17,5 @@ public:
   DECLARE_WIDGET(CheckButtonWidget, CheckButton)
 };
 DEFINE_WIDGET(CheckButtonWidget, CheckButton)
+
+} // namespace fausty

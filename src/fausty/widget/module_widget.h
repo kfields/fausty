@@ -2,6 +2,8 @@
 
 #include "widget.h"
 
+namespace fausty {
+
 class Module;
 
 class ModuleWidget : public WidgetT<Module> {
@@ -11,3 +13,5 @@ public:
   virtual bool DrawNode();
   DECLARE_WIDGET(ModuleWidget, Module)
 };
+
+} // namespace fausty

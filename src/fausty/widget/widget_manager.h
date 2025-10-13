@@ -5,6 +5,8 @@
 #include <string>
 #include <typeindex>
 
+namespace fausty {
+
 class WidgetFactory;
 
 class WidgetManager {
@@ -20,3 +22,5 @@ public:
 #define REGISTER_WIDGET_FACTORY(T) \
   extern WidgetFactory* Get##T##Factory(); \
   WidgetManager::AddFactory(*Get##T##Factory());
+
+} // namespace fausty

@@ -5,6 +5,8 @@
 #include "model.h"
 #include "port.h"
 
+namespace fausty {
+
 class Graph;
 
 class Node : public Model {
@@ -23,3 +25,5 @@ public:
 
   REFLECT_ENABLE(Model)
 };
+
+} // namespace fausty

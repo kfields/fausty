@@ -6,6 +6,8 @@
 #include <fausty/rack/pin.h>
 #include <fausty/rack/wire.h>
 
+namespace fausty {
+
 RackView::RackView(Rack &rack) : ModelViewT<Rack>(rack)
 {
   //LoadEditorState();
@@ -67,3 +69,5 @@ void RackView::Draw()
   }
   ImGui::End();
 }
+
+} // namespace fausty

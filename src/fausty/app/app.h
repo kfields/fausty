@@ -2,6 +2,7 @@
 
 #include <fausty/shell/shell.h>
 
+namespace fausty {
 
 class App : public Window {
 public:
@@ -14,3 +15,5 @@ public:
   bool show_demo_window = true;
   bool show_another_window = false;
 };
+
+} // namespace fausty

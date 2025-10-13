@@ -5,6 +5,8 @@
 #include "faust_dsp_ui.h"
 #include "audio_pin.h"
 
+namespace fausty {
+
 bool FaustDsp::Create(Part &owner)
 {
   Dsp::Create(owner);
@@ -77,3 +79,5 @@ void FaustDsp::Process()
     audio_out_->Write(ProcessAudio());
   }
 }
+
+} // namespace fausty

@@ -1,6 +1,9 @@
 #include <fausty/rack/rack.h>
 
 class RtAudio;
+
+namespace fausty {
+
 class AudioInputDevice;
 class AudioOutputDevice;
 
@@ -29,3 +32,5 @@ public:
 
   REFLECT_ENABLE(Rack)
 };
+
+} // namespace fausty

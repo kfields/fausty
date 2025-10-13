@@ -3,6 +3,8 @@
 #include <vector>
 #include <typeindex>
 
+namespace fausty {
+
 class Model;
 class Widget;
 
@@ -50,3 +52,5 @@ class WidgetFactoryT : public WidgetFactory {
 #define DEFINE_WIDGET(T, N) \
   WidgetFactoryT<T, N> T##Factory; \
   WidgetFactory* Get##T##Factory() { return &T##Factory; }
+
+} // namespace fausty

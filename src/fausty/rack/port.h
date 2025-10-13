@@ -4,6 +4,8 @@
 
 #include "pin.h"
 
+namespace fausty {
+
 class Port {
 public:
   void AddPin(Pin& pin) {
@@ -23,3 +25,5 @@ public:
 class Outport : public Port {
 public:
 };
+
+} // namespace fausty

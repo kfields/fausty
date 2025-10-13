@@ -1,6 +1,8 @@
 #pragma once
 #include "device.h"
 
+namespace fausty {
+
 class AudioDevice : public Device
 {
   REFLECT_ENABLE(Device)
@@ -21,3 +23,5 @@ public:
   bool Create(Part &owner) override;
   REFLECT_ENABLE(AudioDevice)
 };
+
+} // namespace fausty

@@ -4,6 +4,7 @@ from procure import GitSolution
 class Faust(GitSolution):
     path = "depot/faust"
     url = "https://github.com/grame-cncm/faust"
+    recursive = True
 
 
 class Fmt(GitSolution):

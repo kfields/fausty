@@ -2,6 +2,8 @@
 
 #include "view.h"
 
+namespace fausty {
+
 class Model;
 class Widget;
 
@@ -21,3 +23,5 @@ public:
   //Data members
   T* model_;
 };
+
+} // namespace fausty

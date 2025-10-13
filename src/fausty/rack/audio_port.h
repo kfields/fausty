@@ -4,6 +4,8 @@
 
 #include "port.h"
 
+namespace fausty {
+
 class AudioOutport : public Outport {
 public:
   virtual void CreatePin(std::string name) {
@@ -18,3 +20,5 @@ public:
   //Data members
   Audio audio_;
 };
+
+} // namespace fausty

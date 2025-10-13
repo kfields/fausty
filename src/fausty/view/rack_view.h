@@ -2,6 +2,8 @@
 
 #include "model_view.h"
 
+namespace fausty {
+
 class Rack;
 
 class RackView : public ModelViewT<Rack> {
@@ -13,3 +15,5 @@ private:
   void LoadEditorState();
   void SaveEditorState();
 };
+
+} // namespace fausty

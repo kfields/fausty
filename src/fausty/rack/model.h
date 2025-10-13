@@ -4,6 +4,8 @@
 
 #include <fausty/part.h>
 
+namespace fausty {
+
 class Model :public Part {
 public:
   Model() {}
@@ -49,3 +51,5 @@ public:
   virtual std::type_index GetKey() override { return std::type_index(typeid(T)); }
   //Data members
 };
+
+} // namespace fausty

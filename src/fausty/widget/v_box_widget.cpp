@@ -3,6 +3,8 @@
 #include "widget.h"
 #include <fausty/rack/control/v_box.h>
 
+namespace fausty {
+
 class VBoxWidget : public WidgetT<VBox> {
 public:
   VBoxWidget(VBox& model) : WidgetT<VBox>(model) {}
@@ -18,3 +20,5 @@ public:
   DECLARE_WIDGET(VBoxWidget, VBox)
 };
 DEFINE_WIDGET(VBoxWidget, VBox)
+
+} // namespace fausty

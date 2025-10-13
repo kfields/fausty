@@ -3,6 +3,8 @@
 #include "widget.h"
 #include <fausty/rack/control/button.h>
 
+namespace fausty {
+
 class ButtonWidget : public WidgetT<Button> {
 public:
   ButtonWidget(Button& model) : WidgetT<Button>(model) {}
@@ -17,3 +19,5 @@ public:
   DECLARE_WIDGET(ButtonWidget, Button)
 };
 DEFINE_WIDGET(ButtonWidget, Button)
+
+} // namespace fausty

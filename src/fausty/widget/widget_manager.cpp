@@ -3,6 +3,8 @@
 #include "widget_manager.h"
 #include "widget.h"
 
+namespace fausty {
+
 std::vector<WidgetFactory*> WidgetManager::factories_;
 std::map<std::type_index, WidgetFactory*> WidgetManager::factory_map_;
 
@@ -27,3 +29,5 @@ WidgetFactory* WidgetManager::FindFactory(const std::type_index& t) {
   }
   return nullptr;
 }
+
+} // namespace fausty

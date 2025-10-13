@@ -1,6 +1,8 @@
 #pragma once
 #include "control.h"
 
+namespace fausty {
+
 class TextDisplay : public Control {
 public:
   TextDisplay(const char* label, fy_real* zone, char* names[], fy_real min, fy_real max) :
@@ -11,3 +13,5 @@ public:
 
   REFLECT_ENABLE(Control)
 };
+
+} // namespace fausty

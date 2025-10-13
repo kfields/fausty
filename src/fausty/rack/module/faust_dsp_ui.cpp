@@ -19,6 +19,8 @@
 #include "control/h_box.h"
 #include "control/v_box.h"
 
+namespace fausty {
+
 FaustDspUi::FaustDspUi(FaustDsp& m) : UI(), m_(&m) {
   PushModel(m);
 }
@@ -140,3 +142,5 @@ void FaustDspUi::closeBox() {
     return;
   AddModel(*top);
 }
+
+} // namespace fausty

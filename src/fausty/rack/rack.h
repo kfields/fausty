@@ -2,6 +2,8 @@
 
 #include "graph.h"
 
+namespace fausty {
+
 class Module;
 
 class Rack : public Graph
@@ -23,3 +25,5 @@ public:
 
   REFLECT_ENABLE(Graph)
 };
+
+} // namespace fausty

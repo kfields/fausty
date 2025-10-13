@@ -5,6 +5,8 @@
 
 #include "exe_rack.h"
 
+namespace fausty {
+
 //REFLECT_REGISTER(ExeRack);
 
 //#define FORMAT RTAUDIO_FLOAT64
@@ -122,3 +124,5 @@ void ExeRack::Stop()
 {
   RtAudioErrorType e = audio_dac().stopStream();
 }
+
+} // namespace fausty

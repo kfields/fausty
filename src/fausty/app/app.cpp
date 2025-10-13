@@ -9,6 +9,7 @@
 
 #include "app.h"
 
+namespace fausty {
 
 bool App::booted_ = false;
 
@@ -41,3 +42,5 @@ void App::CreateContext()
   system_container_.Add(new ImNodesSystem());
   system_container_.Create();
 }
+
+} // namespace fausty

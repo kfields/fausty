@@ -5,7 +5,11 @@
 
 #include "model_view.h"
 
+namespace fausty {
+
 void ModelView::Build() {
   WidgetBuilder builder;
   root_ = builder.Build(model());
 }
+
+} // namespace fausty

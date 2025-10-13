@@ -1,6 +1,8 @@
 #include "pin.h"
 #include "wire.h"
 
+namespace fausty {
+
 Wire::Wire(Pin& output, Pin& input) : output_(&output), input_(&input)
 {
   input.AddWire(*this);
@@ -8,3 +10,5 @@ Wire::Wire(Pin& output, Pin& input) : output_(&output), input_(&input)
 
   subscription_ = output.Connect(input);
 }
+
+} // namespace fausty

@@ -3,6 +3,8 @@
 //#include <rttr/type>
 #include "reflect.h"
 
+namespace fausty {
+
 class Part {
 public:
   Part() : owner_(nullptr), id_(instanceCounter_++) {}
@@ -18,3 +20,5 @@ public:
   int id_ = 0;
   REFLECT_ENABLE()
 };
+
+} // namespace fausty

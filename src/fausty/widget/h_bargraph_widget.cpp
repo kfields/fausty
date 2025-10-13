@@ -4,6 +4,8 @@
 #include "widget.h"
 #include <fausty/rack/control/h_bargraph.h>
 
+namespace fausty {
+
 class HBarGraphWidget : public WidgetT<HBarGraph> {
 public:
   HBarGraphWidget(HBarGraph& model) : WidgetT<HBarGraph>(model) {}
@@ -16,3 +18,5 @@ public:
   DECLARE_WIDGET(HBarGraphWidget, HBarGraph)
 };
 DEFINE_WIDGET(HBarGraphWidget, HBarGraph)
+
+} // namespace fausty

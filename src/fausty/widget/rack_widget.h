@@ -2,6 +2,8 @@
 
 #include "widget.h"
 
+namespace fausty {
+
 class Rack;
 
 class RackWidget : public WidgetT<Rack> {
@@ -10,3 +12,5 @@ public:
   //virtual void Draw();
   DECLARE_WIDGET(RackWidget, Rack)
 };
+
+} // namespace fausty

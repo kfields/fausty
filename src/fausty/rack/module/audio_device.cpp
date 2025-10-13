@@ -1,5 +1,7 @@
 #include "audio_device.h"
 
+namespace fausty {
+
 bool AudioInputDevice::Create(Part &owner)
 {
   Device::Create(owner);
@@ -17,3 +19,5 @@ bool AudioOutputDevice::Create(Part &owner)
   AddInput(*audio_in_);
   return true;
 }
+
+} // namespace fausty

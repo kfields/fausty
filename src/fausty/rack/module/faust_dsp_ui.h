@@ -12,10 +12,6 @@
 
 using namespace std;
 
-class FaustDsp;
-class Model;
-
-typedef pair<const char *, const char *> strpair;
 
 struct Meta : std::map<const char *, const char *>
 {
@@ -31,6 +27,14 @@ struct Meta : std::map<const char *, const char *>
       return def;
   }
 };
+
+namespace fausty {
+
+class Model;
+
+class FaustDsp;
+
+typedef pair<const char *, const char *> strpair;
 
 struct Zone : std::map<const char *, const char *>
 {
@@ -96,3 +100,5 @@ public:
   std::vector<Model *> models_;
   bool is_top_ = true;
 };
+
+} // namespace fausty

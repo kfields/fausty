@@ -5,6 +5,8 @@
 #include <fausty/rack/node.h>
 #include <fausty/rack/audio_pin.h>
 
+namespace fausty {
+
 class Module : public Node
 {
 public:
@@ -19,3 +21,5 @@ public:
 
   REFLECT_ENABLE(Node)
 };
+
+} // namespace fausty

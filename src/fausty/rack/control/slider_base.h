@@ -1,6 +1,8 @@
 #pragma once
 #include "range_base.h"
 
+namespace fausty {
+
 class SliderBase : public RangeBase {
 public:
   SliderBase(const char* label, fy_real* zone, fy_real init, fy_real min, fy_real max, fy_real step) :
@@ -8,3 +10,5 @@ public:
 
   REFLECT_ENABLE(RangeBase)
 };
+
+} // namespace fausty

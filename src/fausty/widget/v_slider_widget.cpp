@@ -3,6 +3,8 @@
 #include "widget.h"
 #include <fausty/rack/control/v_slider.h>
 
+namespace fausty {
+
 class VSliderWidget : public WidgetT<VSlider> {
 public:
   VSliderWidget(VSlider& model) : WidgetT<VSlider>(model) {}
@@ -13,3 +15,5 @@ public:
   DECLARE_WIDGET(VSliderWidget, VSlider)
 };
 DEFINE_WIDGET(VSliderWidget, VSlider)
+
+} // namespace fausty

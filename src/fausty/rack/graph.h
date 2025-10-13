@@ -5,6 +5,8 @@
 
 #include "model.h"
 
+namespace fausty {
+
 class Wire;
 class Pin;
 
@@ -26,3 +28,5 @@ public:
 
   REFLECT_ENABLE(Model)
 };
+
+} // namespace fausty

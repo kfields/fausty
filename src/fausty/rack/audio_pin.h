@@ -3,6 +3,8 @@
 #include <fausty/audio.h>
 #include "pin.h"
 
+namespace fausty {
+
 typedef PinT<Audio> AudioPinBase;
 
 class AudioPin : public AudioPinBase
@@ -23,3 +25,5 @@ public:
   // Data members
   Audio::Format format_ = Audio::Format::kMono;
 };
+
+} // namespace fausty

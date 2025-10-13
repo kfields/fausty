@@ -6,10 +6,12 @@
 //TODO:Sholdn't have to include this.  Faust won't let you rename the UI class. :(
 #include "faust_ui.h"
 
+namespace fausty {
+  
 class FaustDsp : public Dsp
 {
 public:
-  virtual ~FaustDsp() {}
+  virtual ~FaustDsp() = default;
   bool Create(Part& owner) override;
   Audio ProcessAudio(Audio input = Audio()) override ;
   void Process() override;
@@ -22,3 +24,5 @@ public:
 
   REFLECT_ENABLE(Dsp)
 };
+
+} // namespace fausty
