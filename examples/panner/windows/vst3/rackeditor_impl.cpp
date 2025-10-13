@@ -1,3 +1,5 @@
+#include "base/source/fstring.h"
+
 #include "plug.h"
 #include "rackeditor_impl.h"
 #include "rackview_impl.h"

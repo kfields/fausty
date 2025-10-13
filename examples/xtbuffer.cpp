@@ -4,7 +4,7 @@
 
 #include <vector>
 //#include <xtensor/xarray.hpp>
-#include <xtensor/xadapt.hpp>
+#include <xtensor/containers/xadapt.hpp>
 
 typedef double MY_TYPE;
 #define FORMAT RTAUDIO_FLOAT64

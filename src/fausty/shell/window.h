@@ -6,30 +6,42 @@
 
 #include "../system/system.h"
 
-
-class WindowBase {
+class WindowBase
+{
 public:
-  struct Point {
+  struct Point
+  {
     unsigned int x;
     unsigned int y;
     Point() {}
     Point(unsigned int x, unsigned int y) : x(x), y(y) {}
-    Point(const Point& p1) { x = p1.x; y = p1.y; }
+    Point(const Point &p1)
+    {
+      x = p1.x;
+      y = p1.y;
+    }
   };
 
-  struct Size {
+  struct Size
+  {
     unsigned int width;
     unsigned int height;
     Size() {}
     Size(unsigned int width, unsigned int height)
         : width(width), height(height) {}
-    Size(const Size& s1) { width = s1.width; height = s1.height; }
+    Size(const Size &s1)
+    {
+      width = s1.width;
+      height = s1.height;
+    }
   };
   //
   // Create
   //
-  struct CreateParams {
-    CreateParams(std::string _title = "No Name", Point _origin = Point(0,0), Size _size = Size(800,600)) {
+  struct CreateParams
+  {
+    CreateParams(std::string _title = "No Name", Point _origin = Point(0, 0), Size _size = Size(800, 600))
+    {
       title = _title;
       origin = _origin;
       size = _size;
@@ -39,24 +51,39 @@ public:
     Size size;
   };
 
-  bool Create(CreateParams params = CreateParams()) {
-    if(!DoCreate(params)) { return false; }
-    if(!PostCreate(params)) { return false; }
+  bool Create(CreateParams params = CreateParams())
+  {
+    if (!DoCreate(params))
+    {
+      return false;
+    }
+    if (!PostCreate(params))
+    {
+      return false;
+    }
     return true;
   }
 
-  virtual bool DoCreate(CreateParams params){ return true; }
-  virtual bool PostCreate(CreateParams params){ return true; }
+  virtual bool DoCreate(CreateParams params)
+  {
+    CreateContext();
+    return true;
+  }
+  virtual bool PostCreate(CreateParams params) { return true; }
 
-  bool CreateAndShow(CreateParams params = CreateParams()) {
-    if(!Create(params)) { return false; }
+  bool CreateAndShow(CreateParams params = CreateParams())
+  {
+    if (!Create(params))
+    {
+      return false;
+    }
     return Show();
   }
   virtual bool Show() { return true; }
-  virtual bool Hide(){ return true; }
+  virtual bool Hide() { return true; }
   /*
-  * Context
-  */
+   * Context
+   */
   virtual void CreateContext() {}
   virtual void DestroyContext();
   //
@@ -66,14 +93,23 @@ public:
   //
   // Run
   //
-  struct RunParams {
-    RunParams() {
+  struct RunParams
+  {
+    RunParams()
+    {
     }
   };
 
-  bool Run(RunParams params = RunParams()) {
-    if (!DoRun(params)) { return false; }
-    if (!PostRun(params)) { return false; }
+  bool Run(RunParams params = RunParams())
+  {
+    if (!DoRun(params))
+    {
+      return false;
+    }
+    if (!PostRun(params))
+    {
+      return false;
+    }
     return true;
   }
 
