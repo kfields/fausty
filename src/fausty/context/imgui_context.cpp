@@ -1,27 +1,12 @@
-#include "faustyapp.h"
-#include "app.h"
+#include "imgui.h"
 
-#include "implot.h"
-#include "imnodes.h"
+#include "imgui_context.h"
 
-App::App()
-{
-  FaustyApp::Boot();
-};
 
-bool App::DoCreate(CreateParams params) {
-    Window::DoCreate(params);
-    CreateContext();
-    return true;
-}
-
-void App::CreateContext()
-{
-  //WindowBase::CreateContext();
+void ImGuiContext::Create() {
+  // Setup Dear ImGui context
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
-
-  // Setup Dear ImGui context
 
   ImGuiIO &io = ImGui::GetIO();
   (void)io;
@@ -46,19 +31,8 @@ void App::CreateContext()
     style.Colors[ImGuiCol_WindowBg].w = 1.0f;
   }
 
-  ImPlot::CreateContext();
-  ImNodes::CreateContext();
-  // TODO:Move further down?
-  ImNodes::PushAttributeFlag(ImNodesAttributeFlags_EnableLinkDetachWithDragClick);
-
-  ImNodesIO &nodes_io = ImNodes::GetIO();
-  nodes_io.LinkDetachWithModifierClick.Modifier = &ImGui::GetIO().KeyCtrl;
 }
 
-void App::DestroyContext()
-{
-  //Window::DestroyContext();
+void ImGuiContext::Destroy() {
   ImGui::DestroyContext();
-  ImPlot::DestroyContext();
-  ImNodes::DestroyContext();
 }

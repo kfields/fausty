@@ -5,13 +5,13 @@
 class App : public Window {
 public:
   App();
-  //App(const char* name, int argc, char** argv);
   //virtual ~App();
   /*
   * Context
   */
-  virtual void CreateContext() override;
-  virtual void DestroyContext() override;
+  bool DoCreate(CreateParams params) override;
+  virtual void CreateContext();
+  virtual void DestroyContext();
   //Data members
   bool show_demo_window = true;
   bool show_another_window = false;

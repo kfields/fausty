@@ -43,6 +43,9 @@ void window_focus_callback(GLFWwindow* win, int focused) {
 }
 
 bool GlfwWindow::DoCreate(CreateParams params) {
+    WindowBase::DoCreate(params);
+    //CreateContext();
+
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())

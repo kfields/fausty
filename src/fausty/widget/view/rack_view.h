@@ -6,7 +6,10 @@ class Rack;
 
 class RackView : public ModelViewT<Rack> {
 public:
-  RackView(Rack& rack) : ModelViewT<Rack>(rack) {}
+  RackView(Rack& rack);
   ~RackView();
   void Draw() override;
+private:
+  void LoadEditorState();
+  void SaveEditorState();
 };

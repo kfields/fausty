@@ -37,13 +37,11 @@ public:
   };
 
   bool Create(CreateParams params = CreateParams()) {
-    if(!PreCreate(params)) { return false; }
     if(!DoCreate(params)) { return false; }
     if(!PostCreate(params)) { return false; }
     return true;
   }
 
-  virtual bool PreCreate(CreateParams params){ return true; }
   virtual bool DoCreate(CreateParams params){ return true; }
   virtual bool PostCreate(CreateParams params){ return true; }
 
@@ -56,8 +54,10 @@ public:
   /*
   * Context
   */
+  /*
   virtual void CreateContext();
   virtual void DestroyContext();
+  */
   //
   // Destroy
   //
@@ -71,13 +71,11 @@ public:
   };
 
   bool Run(RunParams params = RunParams()) {
-    if (!PreRun(params)) { return false; }
     if (!DoRun(params)) { return false; }
     if (!PostRun(params)) { return false; }
     return true;
   }
 
-  virtual bool PreRun(RunParams params) { return true; }
   virtual bool DoRun(RunParams params) { return true; }
   virtual bool PostRun(RunParams params) { return true; }
 
