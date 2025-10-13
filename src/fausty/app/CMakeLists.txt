@@ -6,6 +6,7 @@ set(THIS ${PROJECT_NAME})
 include(${FAUSTY_CMAKE}/Shell.cmake)
 include(${FAUSTY_CMAKE}/Rack.cmake)
 include(${FAUSTY_CMAKE}/View.cmake)
+include(${FAUSTY_CMAKE}/System.cmake)
 
 file(GLOB APP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB APP_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
@@ -18,3 +19,4 @@ add_library(${PROJECT_NAME} STATIC
 USES_SHELL(${THIS})
 USES_RACK(${THIS})
 USES_VIEW(${THIS})
+USES_SYSTEM(${THIS})

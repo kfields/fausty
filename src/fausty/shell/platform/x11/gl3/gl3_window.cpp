@@ -7,7 +7,7 @@
 // #include "imgui_impl_glfw.h"
 #include <backends/imgui_impl_glfw.h>
 #include "imgui_impl_opengl3.h"
-#include <stdio.h>
+#include <cstdio>
 
 #include "gl3_window.h"
 
@@ -68,7 +68,7 @@ bool Gl3Window::DoCreate(CreateParams params)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);           // Required on Mac
 #else
     // GL 3.0 + GLSL 130
-    const char *glsl_version_ = "#version 330";
+    auto glsl_version_ = "#version 330";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
@@ -101,7 +101,7 @@ bool Gl3Window::PostCreate(CreateParams params)
     if (err)
     {
         fprintf(stderr, "Failed to initialize OpenGL loader!\n");
-        return 1;
+        return false;
     }
     //CreateContext();
     /*
@@ -195,7 +195,5 @@ void Gl3Window::Destroy()
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
-    // ImGui::DestroyContext();
-    //DestroyContext();
     X11Window::Destroy();
 }

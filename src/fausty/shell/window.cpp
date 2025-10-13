@@ -18,3 +18,7 @@ void WindowBase::DestroyContext() {
   ImGui::DestroyContext();
 }
 */
+void WindowBase::DestroyContext()
+{
+  system_container_.Destroy();
+}

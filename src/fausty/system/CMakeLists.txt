@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(THIS FaustyContext)
+set(THIS FaustySystem)
 
 project(${THIS} CXX)
 

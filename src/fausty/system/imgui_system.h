@@ -1,6 +1,6 @@
-#include "context.h"
+#include "system.h"
 
-class ImGuiContext : public Context {
+class ImGuiSystem : public System {
 public:
   void Create() override;
   void Destroy() override;

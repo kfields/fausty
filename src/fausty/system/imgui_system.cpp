@@ -1,9 +1,9 @@
 #include "imgui.h"
 
-#include "imgui_context.h"
+#include "imgui_system.h"
 
 
-void ImGuiContext::Create() {
+void ImGuiSystem::Create() {
   // Setup Dear ImGui context
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
@@ -33,6 +33,6 @@ void ImGuiContext::Create() {
 
 }
 
-void ImGuiContext::Destroy() {
+void ImGuiSystem::Destroy() {
   ImGui::DestroyContext();
 }

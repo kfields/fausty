@@ -1,6 +1,6 @@
-#include "context.h"
+#include "system.h"
 
-class ImNodesContext : public Context {
+class ImNodesSystem : public System {
 public:
   void Create() override;
   void Destroy() override;

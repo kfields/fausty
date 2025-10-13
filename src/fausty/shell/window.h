@@ -4,6 +4,9 @@
 
 #include "imgui.h"
 
+#include "../system/system.h"
+
+
 class WindowBase {
 public:
   struct Point {
@@ -54,14 +57,12 @@ public:
   /*
   * Context
   */
-  /*
-  virtual void CreateContext();
+  virtual void CreateContext() {}
   virtual void DestroyContext();
-  */
   //
   // Destroy
   //
-  virtual void Destroy() {}
+  virtual void Destroy() { DestroyContext(); }
   //
   // Run
   //
@@ -91,5 +92,6 @@ public:
   virtual void OnWindowFocus(int focused) {}
 
   // Data members
+  SystemContainer system_container_;
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 };
