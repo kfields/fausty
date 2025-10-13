@@ -2,6 +2,8 @@
 #include "imnodes.h"
 #include <fausty/app/app.h>
 
+using namespace fausty;
+
 class MyApp : public App {
   void Draw() override;
   virtual void CreateContext() {

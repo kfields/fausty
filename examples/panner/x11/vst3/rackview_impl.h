@@ -24,5 +24,5 @@ public:
 	void Run();
 	//
 public:
-	Window* window_ = nullptr;
+	fausty::Window* window_ = nullptr;
 };

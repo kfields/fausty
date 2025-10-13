@@ -4,6 +4,7 @@ include(cmake/Config.cmake)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
 #set(BUILD_TESTING OFF CACHE BOOL "Build tests" FORCE)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 project(FaustyAll)
 #project(FaustyAll LANGUAGES CXX)

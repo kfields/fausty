@@ -57,9 +57,11 @@
 #define VERSION_STR MAJOR_VERSION_STR "." SUB_VERSION_STR "." RELEASE_NUMBER_STR
 
 // HERE you have to define your plug-in, company name, email and web
-#define stringPluginName		"Panner"
+#define stringPluginName		"FaustyPanner"
 
-#define stringOriginalFilename	"Panner.vst3"
+//#define stringOriginalFilename	"Panner.vst3"
+#define stringOriginalFilename	"libpanner_x11_vst3.so"
+
 #if SMTG_PLATFORM_64
 #define stringFileDescription	stringPluginName" VST3-SDK (64Bit)"
 #else
@@ -68,5 +70,5 @@
 #define stringCompanyWeb		"http://www.steinberg.net"
 #define stringCompanyEmail		"mailto:info@steinberg.de"
 #define stringCompanyName		"Steinberg Media Technologies"
-#define stringLegalCopyright	"© 2021 Steinberg Media Technologies"
+#define stringLegalCopyright	"ï¿½ 2021 Steinberg Media Technologies"
 #define stringLegalTrademarks	"VST is a trademark of Steinberg Media Technologies GmbH"

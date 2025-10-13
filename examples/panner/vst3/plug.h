@@ -16,8 +16,8 @@ enum PannerParams : Vst::ParamID
 
 // HERE you have to define new unique class ids: for processor and for controller
 // you can use GUID creator tools like https://www.guidgenerator.com/
-static const FUID MyProcessorUID (0xA2EAF7DB, 0x320640F4, 0x8EDE380D, 0xDF89562C);
-static const FUID MyControllerUID (0x239F80C2, 0x4F1442C4, 0x8B58AE6E, 0x7C8644EB);
+static const FUID MyProcessorUID (0xf0e56758, 0x7be84792, 0xb36569fe, 0x63fd202b);
+static const FUID MyControllerUID (0x74c39f88, 0x5d984426, 0xae4d7ec0, 0xa69972ce);
 
 //------------------------------------------------------------------------
 } // namespace Panner

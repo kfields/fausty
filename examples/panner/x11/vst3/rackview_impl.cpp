@@ -10,43 +10,44 @@
 #include <GLFW/glfw3native.h>
 
 #include <fausty/shell/shell.h>
-//#include <fausty/shell/platform/windows/utils.h>
+// #include <fausty/shell/platform/windows/utils.h>
 
 #include "app.h"
 
 #include "rackeditor_impl.h"
 #include "rackview_impl.h"
 
-RackViewImpl::RackViewImpl(PannerEditor* editor, ViewRect* size)
+RackViewImpl::RackViewImpl(PannerEditor *editor, ViewRect *size)
     : PannerView(editor, size)
 {
 }
 
-tresult PLUGIN_API RackViewImpl::attached(void* parent, FIDString type)
+tresult PLUGIN_API RackViewImpl::attached(void *parent, FIDString type)
 {
 
-    //HWND hParent = (HWND)parent;
-    auto hParent = (::Window)parent;
+    // HWND hParent = (HWND)parent;
+    auto new_parent = (::Window)parent;
 
     // Attach to console when present (e.g., 'flutter run') or create a
     // new console when running with a debugger.
-    //if (!::AttachConsole(ATTACH_PARENT_PROCESS) && ::IsDebuggerPresent()) {
-        //CreateAndAttachConsole();
+    // if (!::AttachConsole(ATTACH_PARENT_PROCESS) && ::IsDebuggerPresent()) {
+    // CreateAndAttachConsole();
     //}
-    std::cout << "RackViewImpl::attached" << std::endl << std::flush;
+    std::cout << "RackViewImpl::attached" << std::endl
+              << std::flush;
 
     window_ = new MyApp();
-    Window& window = *window_;
-    //window.AttachTo((HWND)parent);
+    fausty::Window &window = *window_;
+    // window.AttachTo((HWND)parent);
 
-    Display* dpy = glfwGetX11Display();
-    ::Window child = glfwGetX11Window(window_.);
+    Display *dpy = glfwGetX11Display();
+    ::Window child = glfwGetX11Window(window.window_);
 
     // Unmap to avoid flicker and let the server update hierarchy cleanly
     XUnmapWindow(dpy, child);
 
     // Do the reparent
-    XReparentWindow(dpy, child, new_parent, x, y);
+    XReparentWindow(dpy, child, new_parent, 0, 0);
 
     // Remap and flush
     XMapWindow(dpy, child);
@@ -55,16 +56,18 @@ tresult PLUGIN_API RackViewImpl::attached(void* parent, FIDString type)
     return RackView::attached(parent, type);
 }
 
-void RackViewImpl::Run() {
-    //run_loop_.Run();
-}
-tresult PLUGIN_API RackViewImpl::removed() {
-  window_->Destroy();
-  ::CoUninitialize();
-  return RackView::removed();
-}
-tresult PLUGIN_API RackViewImpl::onSize(ViewRect* newSize)
+void RackViewImpl::Run()
 {
+    // run_loop_.Run();
+}
+tresult PLUGIN_API RackViewImpl::removed()
+{
+    window_->Destroy();
+    return RackView::removed();
+}
+tresult PLUGIN_API RackViewImpl::onSize(ViewRect *newSize)
+{
+    /*
     if (window_ != nullptr) {
         HWND hWnd = window_->GetHandle();
         int width = newSize->getWidth();
@@ -72,5 +75,7 @@ tresult PLUGIN_API RackViewImpl::onSize(ViewRect* newSize)
         std::cout << "onSize " << width << " " << height << std::endl << std::flush;
         MoveWindow(hWnd, 0, 0, width, height, true);
     }
+    */
+
     return RackView::onSize(newSize);
 }

@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(THIS ${PROJECT_NAME}_windows_vst3)
+set(THIS ${PROJECT_NAME}_x11_vst3)
 
 file(GLOB VST3_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB VST3_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
-add_library(${THIS} SHARED ${VST3_SOURCES} ${VST3_INCLUDE})
+#add_library(${THIS} SHARED ${VST3_SOURCES} ${VST3_INCLUDE})
+smtg_add_vst3plugin(${THIS} ${VST3_SOURCES} ${VST3_INCLUDE})
 
 include(${FAUSTY_CMAKE}/Vst3.cmake)
 USES_VST3(${THIS})
@@ -30,7 +31,11 @@ if(MSVC)
   )
 endif(MSVC)
 
+if(${SHELL_PLATFORM} STREQUAL "Windows")
 set_target_properties(${THIS} PROPERTIES SUFFIX ".vst3")
+else()
+#set_target_properties(${THIS} PROPERTIES SUFFIX ".vst.so")
+endif()
 
 #add_custom_command(
 #    TARGET ${THIS}

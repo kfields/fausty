@@ -4,6 +4,8 @@
 #include <vector>
 #include <fausty/rack/node.h>
 
+using namespace fausty;
+
 int main( int argc, char *argv[] )
 {
   Node a, b;

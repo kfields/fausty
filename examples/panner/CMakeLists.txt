@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(panner LANGUAGES CXX)
+project(panner LANGUAGES CXX VERSION 1.0.0)
 set(BINARY_NAME "panner")
 
 set(THIS ${BINARY_NAME})

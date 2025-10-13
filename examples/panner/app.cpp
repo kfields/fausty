@@ -1,5 +1,7 @@
 #include "app.h"
 
+using namespace fausty;
+
 void MyApp::Draw() {
 
   App::Draw();
