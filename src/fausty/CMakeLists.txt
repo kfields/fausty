@@ -18,6 +18,7 @@ add_subdirectory(shell)
 add_subdirectory(vst3)
 add_subdirectory(rack)
 add_subdirectory(widget)
+add_subdirectory(view)
 add_subdirectory(app)
 add_subdirectory(system)
 

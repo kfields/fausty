@@ -5,6 +5,7 @@ set(THIS ${PROJECT_NAME})
 
 include(${FAUSTY_CMAKE}/Shell.cmake)
 include(${FAUSTY_CMAKE}/Rack.cmake)
+include(${FAUSTY_CMAKE}/Widget.cmake)
 include(${FAUSTY_CMAKE}/View.cmake)
 include(${FAUSTY_CMAKE}/System.cmake)
 
@@ -18,5 +19,6 @@ add_library(${PROJECT_NAME} STATIC
 
 USES_SHELL(${THIS})
 USES_RACK(${THIS})
+USES_WIDGET(${THIS})
 USES_VIEW(${THIS})
 USES_SYSTEM(${THIS})

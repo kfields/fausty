@@ -21,14 +21,14 @@ bool ModuleWidget::DrawNode() {
 
   for (auto input : model_->inport_.pins_) {
     ImNodes::BeginInputAttribute(input->id_);
-    ImGui::Text(input->name_.c_str());
+    ImGui::TextUnformatted(input->name_.c_str());
     ImNodes::EndInputAttribute();
   }
 
   for (auto output : model_->outport_.pins_) {
     ImNodes::BeginOutputAttribute(output->id_);
     ImGui::Indent(40);
-    ImGui::Text(output->name_.c_str());
+    ImGui::TextUnformatted(output->name_.c_str());
     ImNodes::EndOutputAttribute();
   }
 

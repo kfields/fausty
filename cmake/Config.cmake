@@ -1,7 +1,7 @@
 include_guard()
 
 #set(SHELL_PLATFORM Windows)
-set(SHELL_PLATFORM Linux)
+set(SHELL_PLATFORM X11)
 set(SHELL_BACKEND Gl3)
 #set(SHELL_BACKEND Dx12)
 

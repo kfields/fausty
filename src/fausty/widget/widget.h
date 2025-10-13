@@ -8,6 +8,7 @@ class Widget;
 
 class WidgetContainer {
 public:
+  virtual ~WidgetContainer() = default;
   void AddWidget(Widget* widget) { widgets_.push_back(widget); }
   //Data members
   std::vector<Widget*> widgets_;

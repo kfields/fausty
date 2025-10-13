@@ -7,8 +7,8 @@
 #include <fausty/app/app.h>
 
 #include <fausty/view/rack_view.h>
-#include <fausty/view/widget/widget.h>
-#include <fausty/view/widget/widget_manager.h>
+#include <fausty/widget/widget.h>
+#include <fausty/widget/widget_manager.h>
 
 #include "osc_dsp.h"
 

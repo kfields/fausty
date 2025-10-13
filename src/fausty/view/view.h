@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../widget.h"
+#include "../widget/widget.h"
 
 
 class View : public Widget {
