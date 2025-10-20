@@ -9,6 +9,7 @@ public:
   bool PostCreate(CreateParams params) override;
   void Render() override;
   void Draw() override;
+  void OnMouseButton(int button, int action, int mods) override;
   //Data members
   const char* glsl_version_ = nullptr;
 };

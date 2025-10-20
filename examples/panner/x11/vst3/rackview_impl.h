@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-#include <fausty/shell/shell.h>
+#include <fausty/app/app.h>
 
 #include "rackview.h"
 
@@ -11,18 +11,19 @@ using namespace Steinberg::Panner;
 class RackViewImpl final : public PannerView
 {
 public:
-	RackViewImpl(PannerEditor* editor, ViewRect* size = nullptr);
+	RackViewImpl(PannerEditor *editor, ViewRect *size = nullptr);
 
-	virtual tresult PLUGIN_API attached(void* parent, FIDString type) override;
-	virtual tresult PLUGIN_API removed() override;
-  virtual tresult PLUGIN_API canResize() override
-  {
-  return Steinberg::kResultTrue;
-  }
+	tresult PLUGIN_API attached(void *parent, FIDString type) override;
+	tresult PLUGIN_API removed() override;
+	tresult PLUGIN_API canResize() override
+	{
+		return Steinberg::kResultTrue;
+	}
 
-	virtual tresult PLUGIN_API onSize(ViewRect* newSize) override;
+	tresult PLUGIN_API onSize(ViewRect *newSize) override;
 	void Run();
 	//
 public:
-	fausty::Window* window_ = nullptr;
+	fausty::App *app_ = nullptr;
+	void *parent_ = nullptr;
 };

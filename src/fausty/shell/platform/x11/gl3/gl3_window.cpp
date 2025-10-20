@@ -39,7 +39,12 @@ using namespace gl;
 #endif
 
 // Include glfw3.h after our OpenGL definitions
+//#include <GLFW/glfw3.h>
+// GLFW + native X11 access
 #include <GLFW/glfw3.h>
+#define GLFW_EXPOSE_NATIVE_X11
+#include <GLFW/glfw3native.h>
+
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -153,4 +158,26 @@ void Gl3Window::Destroy()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     X11Window::Destroy();
+}
+
+void Gl3Window::OnMouseButton(int button, int action, int mods) {
+    Display* dpy = glfwGetX11Display();
+    Window   win = glfwGetX11Window(window_);
+    /*
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        if (action == GLFW_PRESS) {
+            // Force focus to our child immediately
+            //XSetInputFocus(dpy, win, RevertToParent, CurrentTime);
+
+            // Keep motion/release with us while dragging
+            XGrabPointer(dpy, win, True,
+                ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
+                GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
+            XFlush(dpy);
+        } else if (action == GLFW_RELEASE) {
+            XUngrabPointer(dpy, CurrentTime);
+            XFlush(dpy);
+        }
+    }
+    */
 }

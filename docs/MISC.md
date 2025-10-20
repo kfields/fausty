@@ -1,4 +1,4 @@
 //Get rid of the squiggles. It's in a precompiled header now.
-#ifndef REFLECT_ENABLE
-#define REFLECT_ENABLE()
+#ifndef RTTR_ENABLE
+#define RTTR_ENABLE()
 #endif

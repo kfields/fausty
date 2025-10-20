@@ -11,4 +11,5 @@ class X11Window : public GlfwWindow
 public:
   X11Window();
   virtual ~X11Window();
+  void NativeAttachTo(void *nativeParent) override;
 };

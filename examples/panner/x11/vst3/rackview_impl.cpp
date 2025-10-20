@@ -25,57 +25,45 @@ RackViewImpl::RackViewImpl(PannerEditor *editor, ViewRect *size)
 tresult PLUGIN_API RackViewImpl::attached(void *parent, FIDString type)
 {
 
-    // HWND hParent = (HWND)parent;
-    auto new_parent = (::Window)parent;
-
-    // Attach to console when present (e.g., 'flutter run') or create a
-    // new console when running with a debugger.
-    // if (!::AttachConsole(ATTACH_PARENT_PROCESS) && ::IsDebuggerPresent()) {
-    // CreateAndAttachConsole();
-    //}
     std::cout << "RackViewImpl::attached" << std::endl
               << std::flush;
 
-    window_ = new MyApp();
-    fausty::Window &window = *window_;
-    // window.AttachTo((HWND)parent);
+    parent_ = parent;
 
-    Display *dpy = glfwGetX11Display();
-    ::Window child = glfwGetX11Window(window.window_);
+    app_ = new MyApp();
 
-    // Unmap to avoid flicker and let the server update hierarchy cleanly
-    XUnmapWindow(dpy, child);
+    // Release any current context on this (host) thread
+    glfwMakeContextCurrent(nullptr);
 
-    // Do the reparent
-    XReparentWindow(dpy, child, new_parent, 0, 0);
-
-    // Remap and flush
-    XMapWindow(dpy, child);
-    XFlush(dpy);
-
+    running_ = true;
+    renderThread_ = std::thread([this]()
+                                { this->Run(); });
     return RackView::attached(parent, type);
 }
 
 void RackViewImpl::Run()
 {
-    // run_loop_.Run();
+    const fausty::Window::RunParams runParams("", fausty::Window::Point(0, 0),
+                                        fausty::Window::Size(rect.getWidth(), rect.getHeight()),
+                                        parent_);
+    app_->Run(runParams);
 }
+
 tresult PLUGIN_API RackViewImpl::removed()
 {
-    window_->Destroy();
+    app_->Destroy();
     return RackView::removed();
 }
+
 tresult PLUGIN_API RackViewImpl::onSize(ViewRect *newSize)
 {
-    /*
-    if (window_ != nullptr) {
-        HWND hWnd = window_->GetHandle();
-        int width = newSize->getWidth();
-        int height = newSize->getHeight();
-        std::cout << "onSize " << width << " " << height << std::endl << std::flush;
-        MoveWindow(hWnd, 0, 0, width, height, true);
-    }
-    */
+    if (app_ == nullptr)
+        return RackView::onSize(newSize);
 
+    int w = newSize->getWidth();
+    int h = newSize->getHeight();
+    std::cout << "RackViewImpl::onSize " << w << "x" << h << std::endl
+              << std::flush;
+    app_->RequestResize(w, h);
     return RackView::onSize(newSize);
 }

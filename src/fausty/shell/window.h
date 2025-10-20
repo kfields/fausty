@@ -40,15 +40,31 @@ public:
   //
   struct CreateParams
   {
-    CreateParams(std::string _title = "No Name", Point _origin = Point(0, 0), Size _size = Size(800, 600))
+    CreateParams(std::string _title = "No Name", Point _origin = Point(0, 0), Size _size = Size(800, 600), void *_nativeParent = nullptr)
     {
       title = _title;
       origin = _origin;
       size = _size;
+      nativeParent = _nativeParent;
     }
     std::string title;
     Point origin;
     Size size;
+    void *nativeParent = nullptr;
+  };
+
+  struct RunParams : CreateParams
+  {
+    /*
+    RunParams(std::string _title = "No Name", Point _origin = Point(0, 0), Size _size = Size(800, 600), void *_nativeParent = nullptr)
+    {
+      title = _title;
+      origin = _origin;
+      size = _size;
+      nativeParent = _nativeParent;
+    }
+    */
+    using CreateParams::CreateParams;
   };
 
   bool Create(CreateParams params = CreateParams())
@@ -81,6 +97,8 @@ public:
   }
   virtual bool Show() { return true; }
   virtual bool Hide() { return true; }
+
+  virtual void NativeAttachTo(void *nativeParent) {}
   /*
    * Context
    */
@@ -93,12 +111,6 @@ public:
   //
   // Run
   //
-  struct RunParams
-  {
-    RunParams()
-    {
-    }
-  };
 
   bool Run(RunParams params = RunParams())
   {
@@ -128,6 +140,7 @@ public:
   virtual void OnWindowFocus(int focused) {}
 
   // Data members
+  bool is_embedded_ = false;
   SystemContainer system_container_;
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 };
