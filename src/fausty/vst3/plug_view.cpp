@@ -1,14 +1,14 @@
-#include "rackeditor.h"
-#include "rackview.h"
+#include "plug_editor.h"
+#include "plug_view.h"
 
 using namespace Steinberg;
 
-RackView::RackView (RackEditor* editor, ViewRect* size)
+PlugView::PlugView (PlugEditor* editor, ViewRect* size)
 : Steinberg::Vst::EditorView(editor, size)
 {
 }
 
-tresult PLUGIN_API RackView::isPlatformTypeSupported (FIDString type) {
+tresult PLUGIN_API PlugView::isPlatformTypeSupported (FIDString type) {
     if (std::strcmp(type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0)
         return kResultTrue;
     return kResultFalse;

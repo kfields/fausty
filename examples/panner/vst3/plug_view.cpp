@@ -1,9 +1,7 @@
-//#include <plugfarm/controls/toggle.h>
-
 #include <iostream>
 
-#include "rackeditor.h"
-#include "rackview.h"
+#include "plug_editor.h"
+#include "plug_view.h"
 #include "plug.h"
 
 namespace Steinberg {
@@ -11,7 +9,7 @@ namespace Panner {
 
 
 PannerView::PannerView(Panner::PannerEditor* editor, ViewRect* size)
-    : RackView(editor, size)
+    : PlugView(editor, size)
 {
 }
 

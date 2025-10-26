@@ -1,6 +1,6 @@
 #include "public.sdk/source/main/pluginfactory.h"
 
-#include "rackeditor_impl.h"	// for createInstance
+#include "plug_editor_impl.h"	// for createInstance
 #include "rack.h"	// for createInstance
 #include "plug.h"			// for uids
 #include "version.h"			// for version and naming

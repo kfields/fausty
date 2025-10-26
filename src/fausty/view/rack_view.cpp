@@ -10,12 +10,10 @@ namespace fausty {
 
 RackView::RackView(Rack &rack) : ModelViewT<Rack>(rack)
 {
-  //LoadEditorState();
 }
 
 RackView::~RackView()
 {
-  //SaveEditorState();
   if (root_)
   {
     delete root_;

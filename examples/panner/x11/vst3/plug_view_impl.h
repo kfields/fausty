@@ -4,14 +4,14 @@
 
 #include <fausty/app/app.h>
 
-#include "rackview.h"
+#include "plug_view.h"
 
 using namespace Steinberg::Panner;
 
-class RackViewImpl final : public PannerView
+class PlugViewImpl final : public PannerView
 {
 public:
-	RackViewImpl(PannerEditor *editor, ViewRect *size = nullptr);
+	PlugViewImpl(PannerEditor *editor, ViewRect *size = nullptr);
 
 	tresult PLUGIN_API attached(void *parent, FIDString type) override;
 	tresult PLUGIN_API removed() override;

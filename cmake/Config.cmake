@@ -2,8 +2,6 @@ include_guard()
 
 #set(SHELL_PLATFORM Windows)
 set(SHELL_PLATFORM X11)
-set(SHELL_BACKEND Gl3)
-#set(SHELL_BACKEND Dx12)
 
 
 set(FAUSTY_ROOT ${CMAKE_CURRENT_LIST_DIR}/..)

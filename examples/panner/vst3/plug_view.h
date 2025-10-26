@@ -1,11 +1,11 @@
-#include <fausty/vst3/rackview.h>
+#include <fausty/vst3/plug_view.h>
 
 namespace Steinberg {
 namespace Panner {
 
 class PannerEditor;
 
-class PannerView : public RackView {
+class PannerView : public PlugView {
 public:
 	PannerView(PannerEditor* editor, ViewRect* size);
 	virtual void attachedToParent() override;

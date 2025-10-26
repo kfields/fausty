@@ -8,18 +8,18 @@
 
 #include "app.h"
 
-#include "rackeditor_impl.h"
-#include "rackview_impl.h"
+#include "plug_editor_impl.h"
+#include "plug_view_impl.h"
 
-RackViewImpl::RackViewImpl(PannerEditor *editor, ViewRect *size)
+PlugViewImpl::PlugViewImpl(PannerEditor *editor, ViewRect *size)
     : PannerView(editor, size)
 {
 }
 
-tresult PLUGIN_API RackViewImpl::attached(void *parent, FIDString type)
+tresult PLUGIN_API PlugViewImpl::attached(void *parent, FIDString type)
 {
 
-    std::cout << "RackViewImpl::attached" << std::endl
+    std::cout << "PlugViewImpl::attached" << std::endl
               << std::flush;
 
     parent_ = parent;
@@ -32,10 +32,10 @@ tresult PLUGIN_API RackViewImpl::attached(void *parent, FIDString type)
     running_ = true;
     renderThread_ = std::thread([this]()
                                 { this->Run(); });
-    return RackView::attached(parent, type);
+    return PlugView::attached(parent, type);
 }
 
-void RackViewImpl::Run()
+void PlugViewImpl::Run()
 {
     const fausty::Window::RunParams runParams("", fausty::Window::Point(0, 0),
                                         fausty::Window::Size(rect.getWidth(), rect.getHeight()),
@@ -43,21 +43,21 @@ void RackViewImpl::Run()
     app_->Run(runParams);
 }
 
-tresult PLUGIN_API RackViewImpl::removed()
+tresult PLUGIN_API PlugViewImpl::removed()
 {
     app_->Destroy();
-    return RackView::removed();
+    return PlugView::removed();
 }
 
-tresult PLUGIN_API RackViewImpl::onSize(ViewRect *newSize)
+tresult PLUGIN_API PlugViewImpl::onSize(ViewRect *newSize)
 {
     if (app_ == nullptr)
-        return RackView::onSize(newSize);
+        return PlugView::onSize(newSize);
 
     int w = newSize->getWidth();
     int h = newSize->getHeight();
     std::cout << "RackViewImpl::onSize " << w << "x" << h << std::endl
               << std::flush;
     app_->RequestResize(w, h);
-    return RackView::onSize(newSize);
+    return PlugView::onSize(newSize);
 }

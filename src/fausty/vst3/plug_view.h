@@ -10,15 +10,15 @@
 
 using namespace Steinberg;
 
-class RackEditor;
+class PlugEditor;
 
-class RackView : public Steinberg::Vst::EditorView
+class PlugView : public Steinberg::Vst::EditorView
 {
 public:
-	RackView(RackEditor *editor, ViewRect *size = nullptr);
+	PlugView(PlugEditor *editor, ViewRect *size = nullptr);
 	tresult PLUGIN_API isPlatformTypeSupported(FIDString type) override;
 	// Accessors
-	RackEditor &editor() { return *((RackEditor *)controller.get()); }
+	PlugEditor &editor() { return *((PlugEditor *)controller.get()); }
 	//
 	// Data members
 	std::thread renderThread_;

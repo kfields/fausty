@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rackeditor.h"
+#include "plug_editor.h"
 
 namespace Steinberg {
 namespace Panner {

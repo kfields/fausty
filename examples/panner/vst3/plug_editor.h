@@ -2,13 +2,13 @@
 
 //#include "public.sdk/source/vst/vsteditcontroller.h"
 //#include "vstgui/plugin-bindings/vst3editor.h"
-#include <fausty/vst3/rackeditor.h>
+#include <fausty/vst3/plug_editor.h>
 
 namespace Steinberg {
 namespace Panner {
 
 //-----------------------------------------------------------------------------
-class PannerEditor : public RackEditor
+class PannerEditor : public PlugEditor
 {
 public:
 //------------------------------------------------------------------------
