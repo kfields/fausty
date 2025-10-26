@@ -6,18 +6,8 @@
 
 #include "gl3_window.h"
 
-bool Gl3Window::DoCreate(CreateParams params)
-{
-    SdlWindow::DoCreate(params);
-    return true;
-}
-
 bool Gl3Window::PostCreate(CreateParams params)
 {
-    // Setup Platform/Renderer backends
-    // ImGui_ImplGlfw_InitForOpenGL(window_, true);
-    // ImGui_ImplOpenGL3_Init(glsl_version_);
-
     // Setup Platform/Renderer backends
     // Create GPU Device
     gpu_device_ = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV | SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_METALLIB, true, nullptr);
@@ -47,30 +37,15 @@ bool Gl3Window::PostCreate(CreateParams params)
     return X11Window::PostCreate(params);
 }
 
-void Gl3Window::Draw()
-{
-}
-
 void Gl3Window::Render()
 {
     // Start the Dear ImGui frame
-    // ImGui_ImplOpenGL3_NewFrame();
-    // ImGui_ImplGlfw_NewFrame();
     ImGui_ImplSDLGPU3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
 
     ImGui::NewFrame();
     Draw();
     ImGui::Render();
-
-    /*
-    int display_w, display_h;
-    glfwGetFramebufferSize(window_, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    */
 
     ImDrawData *draw_data = ImGui::GetDrawData();
     const bool is_minimized = (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f);
@@ -103,20 +78,14 @@ void Gl3Window::Render()
     }
 
     // Update and Render additional Platform Windows
-    // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-    //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-        // SDL_Window* backup_current_context = glfwGetCurrentContext();
         ImGui::UpdatePlatformWindows();
         ImGui::RenderPlatformWindowsDefault();
-        // glfwMakeContextCurrent(backup_current_context);
-        //glfwMakeContextCurrent(window_);
     }
 
-    // glfwSwapBuffers(window_);
     //  Submit the command buffer
     SDL_SubmitGPUCommandBuffer(command_buffer);
 }
@@ -124,32 +93,7 @@ void Gl3Window::Render()
 void Gl3Window::Destroy()
 {
     // Cleanup
-    //ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDLGPU3_Shutdown();
-    //ImGui_ImplGlfw_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     X11Window::Destroy();
-}
-
-void Gl3Window::OnMouseButton(int button, int action, int mods)
-{
-    //Display *dpy = glfwGetX11Display();
-    //Window win = glfwGetX11Window(window_);
-    /*
-    if (button == GLFW_MOUSE_BUTTON_LEFT) {
-        if (action == GLFW_PRESS) {
-            // Force focus to our child immediately
-            //XSetInputFocus(dpy, win, RevertToParent, CurrentTime);
-
-            // Keep motion/release with us while dragging
-            XGrabPointer(dpy, win, True,
-                ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
-                GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
-            XFlush(dpy);
-        } else if (action == GLFW_RELEASE) {
-            XUngrabPointer(dpy, CurrentTime);
-            XFlush(dpy);
-        }
-    }
-    */
 }

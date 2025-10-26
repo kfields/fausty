@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include <fausty/shell/sdl_window.h>
+#include <fausty/shell/base_window.h>
 
-class X11Window : public SdlWindow
+class X11Window : public BaseWindow
 {
 public:
   X11Window();

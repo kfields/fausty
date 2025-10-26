@@ -1,0 +1,164 @@
+#include <SDL3/SDL.h>
+
+#include "imgui.h"
+#include <backends/imgui_impl_sdl3.h>
+
+#include "base_window.h"
+
+void BaseWindow::DestroyContext()
+{
+    system_container_.Destroy();
+}
+
+BaseWindow::BaseWindow()
+{
+}
+
+BaseWindow::~BaseWindow()
+{
+    Destroy();
+}
+
+bool BaseWindow::DoCreate(CreateParams params)
+{
+    CreateContext();
+
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD))
+    {
+        printf("Error: SDL_Init(): %s\n", SDL_GetError());
+        return false;
+    }
+
+    is_embedded_ = (params.nativeParent != nullptr);
+
+    uint32_t sdl_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+
+    if (is_embedded_)
+    {
+        sdl_flags |= SDL_WINDOW_BORDERLESS;
+    }
+
+    window_ = SDL_CreateWindow(params.title.c_str(),
+                               params.size.width,
+                               params.size.height,
+                               sdl_flags);
+
+    if (window_ == NULL)
+        return false;
+
+    if (params.nativeParent)
+    {
+        NativeAttachTo(params.nativeParent);
+    }
+
+    /*
+    // Create GPU Device
+    SDL_GPUDevice *gpu_device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV | SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_METALLIB, true, nullptr);
+    if (gpu_device == nullptr)
+    {
+        printf("Error: SDL_CreateGPUDevice(): %s\n", SDL_GetError());
+        return 1;
+    }
+
+    // Claim window for GPU Device
+    if (!SDL_ClaimWindowForGPUDevice(gpu_device, window_))
+    {
+        printf("Error: SDL_ClaimWindowForGPUDevice(): %s\n", SDL_GetError());
+        return 1;
+    }
+    SDL_SetGPUSwapchainParameters(gpu_device, window_, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC);
+    */
+
+    return true;
+}
+
+void BaseWindow::SetQuitOnClose(bool quit_on_close)
+{
+    quit_on_close_ = quit_on_close;
+}
+
+bool BaseWindow::DoRun(RunParams params)
+{
+
+    Point origin(10, 10);
+    Size size(1280, 720);
+
+    bool success = CreateAndShow(params);
+
+    assert(success);
+    if (!success)
+    {
+        return false;
+    }
+
+    // Main loop
+    bool done = false;
+    while (!done)
+    {
+        {
+            std::lock_guard<std::mutex> lk(mtx_);
+            while (!q_.empty())
+            {
+                auto c = q_.front();
+                q_.pop();
+                if (c.kind == Cmd::Resize)
+                    applyResize_(c.w, c.h);
+            }
+        }
+        // glfwWaitEvents();
+        // glfwPollEvents();
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            ImGui_ImplSDL3_ProcessEvent(&event);
+            if (event.type == SDL_EVENT_QUIT)
+                done = true;
+            if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window_))
+                done = true;
+        }
+        Render();
+    }
+
+    return true;
+}
+
+bool BaseWindow::PostRun(RunParams params)
+{
+    Destroy();
+    return true;
+}
+
+void BaseWindow::Destroy()
+{
+    DestroyContext();
+
+    if (window_)
+    {
+        SDL_DestroyWindow(window_);
+        window_ = nullptr;
+    }
+    SDL_Quit();
+}
+
+void BaseWindow::RequestResize(int w, int h)
+{
+    {
+        std::lock_guard<std::mutex> lk(mtx_);
+        q_.push({Cmd::Resize, w, h});
+    }
+    // glfwPostEmptyEvent(); // wake the window loop
+
+    SDL_Event event;
+    SDL_zero(event);
+    event.type = SDL_EVENT_USER;
+    event.user.code = 0;
+    event.user.data1 = nullptr;
+    event.user.data2 = nullptr;
+    SDL_PushEvent(&event);
+}
+
+void BaseWindow::applyResize_(int w, int h)
+{
+    // Single place that touches SDL size; we’re on the window thread
+    SDL_SetWindowSize(window_, w, h);
+}

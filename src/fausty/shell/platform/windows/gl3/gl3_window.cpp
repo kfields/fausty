@@ -72,7 +72,7 @@ bool Gl3Window::DoCreate(CreateParams params) {
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
-  return SdlWindow::DoCreate(params);
+  return BaseWindow::DoCreate(params);
 }
 
 bool Gl3Window::PostCreate(CreateParams params) {
