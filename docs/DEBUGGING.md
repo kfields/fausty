@@ -1,4 +1,4 @@
-## VST3SDK editorhost
+## VST3SDK editorhost Debugging
 
 ```bash
 cd depot/vst3sdk/cmake-build/bin/Debug
@@ -16,8 +16,12 @@ cd depot/vst3sdk/cmake-build/bin/Debug
 gdb --args ./editorhost ~/.vst3/panner_x11_vst3.vst3
 ```
 
-## For Comparison
+### For Comparison
 
 ```bash
 ./editorhost ~/.vst3/panner.vst3
 ```
+
+## Reaper Debugging
+gdb --args ~/opt/REAPER/reaper
+

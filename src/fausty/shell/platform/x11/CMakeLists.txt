@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(THIS ${PROJECT_NAME}${CMAKE_SYSTEM_NAME})
+#set(THIS ${PROJECT_NAME}${CMAKE_SYSTEM_NAME})
+set(THIS ${PROJECT_NAME}${SHELL_PLATFORM})
 
 include(${FAUSTY_CMAKE}/Fausty.cmake)
 include(${FAUSTY_CMAKE}/ImGui.cmake)
@@ -22,9 +23,4 @@ USES_IMGUI(${THIS})
 USES_SDL(${THIS})
 USES_X11(${THIS})
 
-if(${SHELL_BACKEND} STREQUAL "Gl3")
-  add_subdirectory(gl3)
-elseif(${SHELL_BACKEND} STREQUAL "Dx12")
-  add_subdirectory(dx12)
-endif()
-
+target_link_libraries(${THIS} PRIVATE FaustyShell)

@@ -5,7 +5,6 @@
 #include <filesystem>
 
 #include <fausty/shell/shell.h>
-// #include <fausty/shell/platform/windows/utils.h>
 
 #include "app.h"
 

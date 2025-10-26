@@ -10,6 +10,11 @@ public:
   static void Boot();
   //virtual ~App();
   void CreateContext() override;
+
+  void Destroy() override;
+  bool PostCreate(CreateParams params) override;
+  void Render() override;
+
   //Data members
   static bool booted_;
   bool show_demo_window = true;
