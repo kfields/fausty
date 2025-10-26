@@ -9,13 +9,14 @@
 
 #include <fausty/shell/window.h>
 
-class GLFWwindow;
+struct SDL_Window;
+struct SDL_GPUDevice;
 
-class GlfwWindow : public WindowBase
+class SdlWindow : public WindowBase
 {
 public:
-  GlfwWindow();
-  virtual ~GlfwWindow();
+  SdlWindow();
+  virtual ~SdlWindow();
   virtual void Render() {}
 
   virtual bool DoCreate(CreateParams params) override;
@@ -33,7 +34,8 @@ protected:
   bool quit_on_close_ = false;
   //
 public:
-  GLFWwindow *window_ = nullptr;
+  SDL_Window *window_ = nullptr;
+  SDL_GPUDevice *gpu_device_ = nullptr;
 
 private:
   struct Cmd

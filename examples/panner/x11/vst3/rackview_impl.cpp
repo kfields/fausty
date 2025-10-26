@@ -4,11 +4,6 @@
 #include <iostream>
 #include <filesystem>
 
-// GLFW + native X11 access
-#include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_X11
-#include <GLFW/glfw3native.h>
-
 #include <fausty/shell/shell.h>
 // #include <fausty/shell/platform/windows/utils.h>
 
@@ -33,7 +28,7 @@ tresult PLUGIN_API RackViewImpl::attached(void *parent, FIDString type)
     app_ = new MyApp();
 
     // Release any current context on this (host) thread
-    glfwMakeContextCurrent(nullptr);
+    //glfwMakeContextCurrent(nullptr);
 
     running_ = true;
     renderThread_ = std::thread([this]()

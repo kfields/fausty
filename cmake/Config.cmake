@@ -20,5 +20,5 @@ set(IMGUI_EX ${FAUSTY_DEPOT}/imgui/backends)
 set(IMPLOT_ROOT ${FAUSTY_DEPOT}/implot)
 set(IMNODES_ROOT ${FAUSTY_DEPOT}/imnodes)
 set(IMKNOBS_ROOT ${FAUSTY_DEPOT}/imknobs)
-set(GLAD_ROOT ${FAUSTY_DEPOT}/glad)
-set(GLFW_ROOT ${FAUSTY_DEPOT}/glfw)
+
+set(SDL_ROOT ${FAUSTY_DEPOT}/sdl)

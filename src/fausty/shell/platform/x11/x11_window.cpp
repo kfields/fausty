@@ -1,9 +1,15 @@
-//#include <GLFW/glfw3.h>
-// GLFW + native X11 access
-#include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_X11
-#include <GLFW/glfw3native.h>
 
+/*#include <GLFW/glfw3.h>
+#define GLFW_EXPOSE_NATIVE_X11
+#include <GLFW/glfw3native.h>*/
+
+// SDL3 + native X11 access
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_video.h>
+#include <SDL3/SDL_properties.h>
+
+// X11
+#include <X11/Xlib.h>
 
 #include "x11_window.h"
 
@@ -16,32 +22,49 @@ X11Window::~X11Window()
     Destroy();
 }
 
-void X11Window::NativeAttachTo(void *nativeParent)
+void X11Window::NativeAttachTo(void* nativeParent)
 {
-    //is_embedded_ = (nativeParent != nullptr);
+    if (!window_ || !nativeParent)
+        return;
 
-    Display *dpy = glfwGetX11Display();
-    ::Window child = glfwGetX11Window(window_);
+    // Ensure we’re on X11 (Wayland won’t have these properties)
+    const char* vdriver = SDL_GetCurrentVideoDriver();
+    if (!vdriver || strcmp(vdriver, "x11") != 0) {
+        SDL_Log("NativeAttachTo: not on X11 (current video driver: %s)", vdriver ? vdriver : "(none)");
+        return;
+    }  // SDL_GetCurrentVideoDriver docs. :contentReference[oaicite:1]{index=1}
 
-    /*
-    XSetWindowAttributes attributes;
-    attributes.override_redirect = True;
-    XChangeWindowAttributes(dpy, child, CWOverrideRedirect, &attributes);
-    */
+    SDL_PropertiesID props = SDL_GetWindowProperties(window_);
+    if (!props) {
+        SDL_Log("NativeAttachTo: failed to get window properties: %s", SDL_GetError());
+        return;
+    }
 
-    /*
-    // 1) Tell host we speak XEmbed
-    Atom XEMBED_INFO = XInternAtom(dpy, "_XEMBED_INFO", False);
-    // version=0, flags=1 (XEMBED_MAPPED) — see XEmbed spec
-    unsigned long xembed_data[2] = {0, 1};
-    XChangeProperty(dpy, child, XEMBED_INFO, XEMBED_INFO, 32, PropModeReplace,
-                    reinterpret_cast<const unsigned char *>(xembed_data), 2);
-    */
+    // Fetch X11 Display* and Window ID from SDL window properties
+    // Property names from SDL3 docs:
+    //  - SDL_PROP_WINDOW_X11_DISPLAY_POINTER
+    //  - SDL_PROP_WINDOW_X11_WINDOW_NUMBER
+    // (screen number exists too, but not needed here). :contentReference[oaicite:2]{index=2}
+    Display* dpy = static_cast<Display*>(
+        SDL_GetPointerProperty(props, SDL_PROP_WINDOW_X11_DISPLAY_POINTER, nullptr)
+    );
+    ::Window child = static_cast<::Window>(
+        SDL_GetNumberProperty(props, SDL_PROP_WINDOW_X11_WINDOW_NUMBER, 0)
+    );
+
+    if (!dpy || !child) {
+        SDL_Log("NativeAttachTo: missing X11 handles (dpy=%p, child=%lu)", (void*)dpy, (unsigned long)child);
+        return;
+    }
+
+    ::Window new_parent = (::Window)(uintptr_t)nativeParent;
+
+    // Optional: tweak override_redirect / XEMBED info if your host requires it.
+    // (Left commented exactly like your original.)
 
     // Unmap to avoid flicker and let the server update hierarchy cleanly
     XUnmapWindow(dpy, child);
 
-    auto new_parent = (::Window)nativeParent;
     // Do the reparent
     XReparentWindow(dpy, child, new_parent, 0, 0);
 

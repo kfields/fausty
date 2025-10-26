@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include <fausty/shell/glfw_window.h>
+#include <fausty/shell/sdl_window.h>
 
-class X11Window : public GlfwWindow
+class X11Window : public SdlWindow
 {
 public:
   X11Window();

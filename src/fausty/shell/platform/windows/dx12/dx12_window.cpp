@@ -120,7 +120,7 @@ bool Dx12Window::PostCreate(CreateParams params) {
 
 bool Dx12Window::PostRun(RunParams params) {
   WaitForLastSubmittedFrame();
-  return GlfwWindow::PostRun(params);
+  return SdlWindow::PostRun(params);
 }
 
 void Dx12Window::Draw() {

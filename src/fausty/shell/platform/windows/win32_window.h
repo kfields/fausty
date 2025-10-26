@@ -8,7 +8,7 @@
 
 #include <fausty/shell/glfw_window.h>
 
-class Win32Window : public GlfwWindow
+class Win32Window : public SdlWindow
 {
 public:
   Win32Window();

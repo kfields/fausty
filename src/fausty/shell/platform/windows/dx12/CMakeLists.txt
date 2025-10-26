@@ -13,7 +13,6 @@ add_library(${THIS} STATIC
   ${SHELL_SRC}
   ${SHELL_INCLUDE}
 
-  #${IMGUI_EX}/imgui_impl_win32.cpp
   ${IMGUI_EX}/imgui_impl_dx12.cpp
 )
 USES_FAUSTY(${THIS})

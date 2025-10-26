@@ -1,3 +1,5 @@
+## VST3SDK editorhost
+
 ```bash
 cd depot/vst3sdk/cmake-build/bin/Debug
 

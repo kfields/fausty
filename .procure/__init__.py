@@ -12,14 +12,9 @@ class Fmt(GitSolution):
     url = "https://github.com/fmtlib/fmt"
 
 
-class Glad(GitSolution):
-    path = "depot/glad"
-    url = "https://github.com/Dav1dde/glad"
-
-
-class Glfw(GitSolution):
-    path = "depot/glfw"
-    url = "https://github.com/glfw/glfw"
+class SDL(GitSolution):
+    path = "depot/sdl"
+    url = "https://github.com/libsdl-org/SDL"
 
 
 class ImGui(GitSolution):
@@ -72,8 +67,7 @@ class Xtl(GitSolution):
 solutions = [
     Faust,
     Fmt,
-    Glad,
-    Glfw,
+    SDL,
     ImGui,
     ImGuiKnobs,
     ImNodes,

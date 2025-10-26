@@ -4,7 +4,7 @@ set(THIS ${PROJECT_NAME}${CMAKE_SYSTEM_NAME})
 
 include(${FAUSTY_CMAKE}/Fausty.cmake)
 include(${FAUSTY_CMAKE}/ImGui.cmake)
-include(${FAUSTY_CMAKE}/Glfw.cmake)
+include(${FAUSTY_CMAKE}/Sdl.cmake)
 include(${FAUSTY_CMAKE}/X11.cmake)
 
 file(GLOB SHELL_SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
@@ -14,12 +14,12 @@ add_library(${THIS} STATIC
   ${SHELL_SRC}
   ${SHELL_INCLUDE}
 
-  ${IMGUI_EX}/imgui_impl_opengl3.cpp
+  ${IMGUI_EX}/imgui_impl_sdlgpu3.cpp
 )
 
 USES_FAUSTY(${THIS})
 USES_IMGUI(${THIS})
-USES_GLFW(${THIS})
+USES_SDL(${THIS})
 USES_X11(${THIS})
 
 if(${SHELL_BACKEND} STREQUAL "Gl3")

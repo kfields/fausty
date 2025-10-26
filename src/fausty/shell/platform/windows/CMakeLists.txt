@@ -17,7 +17,7 @@ add_library(${THIS} STATIC
 )
 USES_FAUSTY(${THIS})
 USES_IMGUI(${THIS})
-USES_GLFW(${THIS})
+USES_SDL(${THIS})
 
 if(${SHELL_BACKEND} STREQUAL "Gl3")
   add_subdirectory(gl3)

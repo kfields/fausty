@@ -59,18 +59,19 @@ add_subdirectory(${FAUSTY_ROOT}/src/imknobs)
 #IMKNOBS END
 
 #GLAD BEGIN
-if(${SHELL_BACKEND} STREQUAL "Gl3")
-  add_subdirectory(${GLAD_ROOT}/cmake)
-  glad_add_library(glad_gl_core_33 STATIC API gl:core=3.3)
-endif()
+#if(${SHELL_BACKEND} STREQUAL "Gl3")
+#  add_subdirectory(${GLAD_ROOT}/cmake)
+#  glad_add_library(glad_gl_core_33 STATIC API gl:core=3.3)
+#endif()
 #GLAD END
 
 #GLFW BEGIN
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(${GLFW_ROOT})
+#set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+#set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+#set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+#add_subdirectory(${GLFW_ROOT})
 #GLFW END
+
 
 #VST3SDK BEGIN
 set(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES OFF CACHE BOOL "Enable VST 3 Plug-in Examples" FORCE)
@@ -78,6 +79,19 @@ set(SMTG_ENABLE_VST3_HOSTING_EXAMPLES OFF CACHE BOOL "Enable VST 3 Hosting Examp
 set(SMTG_ENABLE_VSTGUI_SUPPORT OFF CACHE BOOL "Enable VSTGUI Support" FORCE)
 add_subdirectory(${FAUSTY_DEPOT}/vst3sdk)
 #VST3SDK END
+
+#
+# SDL
+#
+set(HAVE_LIBC ON)
+set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library" FORCE)
+set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
+set(SDL_TEST OFF CACHE BOOL "Build the SDL3_test library" FORCE)
+
+set(SDL_RENDER OFF CACHE BOOL "Use render subsystem" FORCE)
+
+add_subdirectory(depot/sdl)
+
 
 #FAUSTY BEGIN
 add_subdirectory(src/fausty)

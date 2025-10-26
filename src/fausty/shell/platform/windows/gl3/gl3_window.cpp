@@ -72,7 +72,7 @@ bool Gl3Window::DoCreate(CreateParams params) {
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
-  return GlfwWindow::DoCreate(params);
+  return SdlWindow::DoCreate(params);
 }
 
 bool Gl3Window::PostCreate(CreateParams params) {
@@ -109,7 +109,6 @@ bool Gl3Window::PostCreate(CreateParams params) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-    //TODO: There's a memory leak involving viewports + glfw + OpenGL.
     //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
     //io.ConfigViewportsNoAutoMerge = true;
@@ -171,7 +170,7 @@ void Gl3Window::Render() {
   ImGuiIO& io = ImGui::GetIO(); (void)io;
   if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
   {
-      //GLFWwindow* backup_current_context = glfwGetCurrentContext();
+      //SDL_Window* backup_current_context = glfwGetCurrentContext();
       ImGui::UpdatePlatformWindows();
       ImGui::RenderPlatformWindowsDefault();
       //glfwMakeContextCurrent(backup_current_context);
