@@ -45,7 +45,7 @@ int main(int, char **)
   ExeRack &rack = app.rack_;
   rack.Create();
   rack.Start();
-  app.Run();
+  app.Run(fausty::Window::RunParams("Fausty Bubble"));
   rack.Stop();
 
   return 0;

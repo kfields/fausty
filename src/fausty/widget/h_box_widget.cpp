@@ -10,15 +10,20 @@ public:
   HBoxWidget(HBox& model) : WidgetT<HBox>(model) {}
   void Draw() override {
     ImGui::BeginGroup();
-    ImGui::PushItemWidth(128);
+    //ImGui::PushItemWidth(128);
     DrawChildren();
-    ImGui::PopItemWidth();
+    //ImGui::PopItemWidth();
     ImGui::EndGroup();
   }
   virtual void DrawChild(Widget& child) override {
-    child.Draw();
     if(widgets_.back() != &child)
       ImGui::SameLine();
+
+    child.Draw();
+    /*
+    if(widgets_.back() != &child)
+      ImGui::SameLine();
+    */
   }
   DECLARE_WIDGET(HBoxWidget, HBox)
 };

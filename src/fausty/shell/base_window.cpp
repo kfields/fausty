@@ -100,52 +100,8 @@ bool BaseWindow::DoRun(RunParams params)
     bool done = false;
     while (!done)
     {
-        {
-            std::lock_guard<std::mutex> lk(mtx_);
-            while (!q_.empty())
-            {
-                auto c = q_.front();
-                q_.pop();
-                if (c.kind == Cmd::Resize)
-                    applyResize_(c.w, c.h);
-            }
-        }
-        // glfwWaitEvents();
-        // glfwPollEvents();
         SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            ImGui_ImplSDL3_ProcessEvent(&event);
-            if (event.type == SDL_EVENT_QUIT)
-                done = true;
-            if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window_))
-                done = true;
-        }
-        Render();
-    }
-
-    return true;
-}
-*/
-bool BaseWindow::DoRun(RunParams params)
-{
-
-    Point origin(10, 10);
-    Size size(1280, 720);
-
-    bool success = CreateAndShow(params);
-
-    assert(success);
-    if (!success)
-    {
-        return false;
-    }
-
-    // Main loop
-    bool done = false;
-    while (!done)
-    {
-        SDL_Event event;
+        SDL_WaitEvent(&event);
         while (SDL_PollEvent(&event))
         {
 
@@ -166,6 +122,56 @@ bool BaseWindow::DoRun(RunParams params)
                 done = true;
         }
         Render();
+    }
+
+    return true;
+}
+*/
+
+bool BaseWindow::Dispatch(const SDL_Event &event) {
+    if (auto* raw = TryDecode<ResizeEvent>(event)) {
+        auto ev = Adopt(raw);
+        ApplyResize(ev->width, ev->height);
+    } else if (auto* raw = TryDecode<CloseEvent>(event)) {
+        auto ev = Adopt(raw);
+        //ApplyClose();
+        return true;
+    }
+
+    ImGui_ImplSDL3_ProcessEvent(&event);
+
+    if (event.type == SDL_EVENT_QUIT)
+        return true;
+    if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window_))
+        return true;
+
+    return false;
+}
+
+bool BaseWindow::DoRun(RunParams params)
+{
+    bool success = CreateAndShow(params);
+
+    assert(success);
+    if (!success)
+    {
+        return false;
+    }
+
+    // Main loop
+    bool done = false;
+    while (!done)
+    {
+        Render();
+        SDL_Event event;
+        SDL_WaitEvent(&event);
+        //SDL_WaitEventTimeout(&event, 1);
+        done = Dispatch(event);
+        while (SDL_PollEvent(&event))
+        {
+            done = Dispatch(event) || done;
+        }
+        //Render();
     }
 
     return true;

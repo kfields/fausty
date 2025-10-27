@@ -4,7 +4,6 @@
 
 class Gl3Window : public Win32Window {
 public:
-  //virtual int Run() override;
   virtual void Destroy();
   virtual bool DoCreate(CreateParams params) override;
   virtual bool PostCreate(CreateParams params) override;
