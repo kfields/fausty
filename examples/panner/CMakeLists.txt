@@ -20,8 +20,4 @@ target_compile_definitions(${THIS} PRIVATE "NOMINMAX" RACK_IMPL)
 
 add_subdirectory(vst3)
 
-if(${SHELL_PLATFORM} STREQUAL "Windows")
-add_subdirectory(windows)
-elseif(${SHELL_PLATFORM} STREQUAL "X11")
-add_subdirectory(x11)
-endif()
+add_subdirectory(format)

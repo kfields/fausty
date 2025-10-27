@@ -3,9 +3,9 @@
 #include <string>
 #include <functional>
 #include <memory>
-#include <string>
-#include <mutex>
-#include <queue>
+
+//#include <mutex>
+//#include <queue>
 
 #include "imgui.h"
 
@@ -13,6 +13,9 @@
 
 struct SDL_Window;
 struct SDL_GPUDevice;
+
+namespace fausty
+{
 
 class BaseWindow
 {
@@ -151,6 +154,7 @@ public:
 
     // Called from other threads (EditorView::onSize)
     void RequestResize(int w, int h); // thread-safe
+    void RequestClose();      // thread-safe
 
     // Data members
     bool is_embedded_ = false;
@@ -173,7 +177,10 @@ private:
         } kind;
         int w, h;
     };
-    std::mutex mtx_;
-    std::queue<Cmd> q_;              // simple thread-safe queue
-    void applyResize_(int w, int h); // runs on window thread
+    //std::mutex mtx_;
+    //std::queue<Cmd> q_;              // simple thread-safe queue
+    void ApplyResize(int w, int h); // runs on window thread
+    void ApplyClose();
 };
+
+} // namespace fausty

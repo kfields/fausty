@@ -1,4 +1,3 @@
-//#include <fausty/rack/rack.h>
 #include <fausty/rack/format/exe/exe_rack.h>
 #include <fausty/rack/module/module.h>
 #include <fausty/rack/module/faust_dsp.h>

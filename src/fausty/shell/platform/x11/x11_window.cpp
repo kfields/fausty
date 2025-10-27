@@ -13,6 +13,9 @@
 
 #include "x11_window.h"
 
+namespace fausty
+{
+
 X11Window::X11Window()
 {
 }
@@ -72,3 +75,5 @@ void X11Window::NativeAttachTo(void* nativeParent)
     XMapWindow(dpy, child);
     XFlush(dpy);
 }
+
+} // namespace fausty

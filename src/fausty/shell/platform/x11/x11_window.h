@@ -6,10 +6,15 @@
 
 #include <fausty/shell/base_window.h>
 
-class X11Window : public BaseWindow
+namespace fausty
 {
-public:
-  X11Window();
-  virtual ~X11Window();
-  void NativeAttachTo(void *nativeParent) override;
-};
+
+  class X11Window : public BaseWindow
+  {
+  public:
+    X11Window();
+    virtual ~X11Window();
+    void NativeAttachTo(void *nativeParent) override;
+  };
+
+} // namespace fausty

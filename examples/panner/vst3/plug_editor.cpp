@@ -1,5 +1,5 @@
 #include "plug.h"
-#include "rack.h"
+#include "parameters.h"
 #include "plug_editor.h"
 
 #include "base/source/fstreamer.h"

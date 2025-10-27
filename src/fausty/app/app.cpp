@@ -11,6 +11,8 @@
 #include "../system/implot_system.h"
 #include "../system/imnodes_system.h"
 
+#include "../event/event.h"
+
 #include "app.h"
 
 namespace fausty {
@@ -25,6 +27,8 @@ App::App()
 void App::Boot() {
   if (booted_) return;
   booted_ = true;
+
+  bool success = InitUserEvents();
 
   REGISTER_WIDGET_FACTORY(RackWidget)
   REGISTER_WIDGET_FACTORY(ModuleWidget)

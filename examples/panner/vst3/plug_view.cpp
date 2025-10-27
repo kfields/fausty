@@ -15,9 +15,6 @@ PannerView::PannerView(Panner::PannerEditor* editor, ViewRect* size)
 
 void PannerView::attachedToParent() {
     std::cout << "PannerView::attachedToParent" << std::endl << std::flush;
-    /*Control& control = *new Toggle("toggle", Panner::kBypassId);
-    cc_.Add(control);
-    cc_.Bind(this);*/
 }
 
 }}

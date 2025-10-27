@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "rack.h"
 #include "plug.h"
+#include "parameters.h"
 
 #include "public.sdk/source/vst/vstaudioprocessoralgo.h"
 #include "base/source/fstreamer.h"
@@ -18,17 +18,17 @@ namespace Panner {
 #define kRampingTimeMs 10.0 // in ms
 
 //-----------------------------------------------------------------------------
-Rack::Rack ()
+Plug::Plug ()
 {
 	// register its editor class
 	setControllerClass (MyControllerUID);
 
 	// default init
-	processAudioPtr = &Rack::processAudio<float>;
+	processAudioPtr = &Plug::processAudio<float>;
 }
 
 //-----------------------------------------------------------------------------
-tresult PLUGIN_API Rack::initialize (FUnknown* context)
+tresult PLUGIN_API Plug::initialize (FUnknown* context)
 {
 	//---always initialize the parent-------
 	tresult result = AudioEffect::initialize (context);
@@ -44,7 +44,7 @@ tresult PLUGIN_API Rack::initialize (FUnknown* context)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API Rack::canProcessSampleSize (int32 symbolicSampleSize)
+tresult PLUGIN_API Plug::canProcessSampleSize (int32 symbolicSampleSize)
 {
 	return ((symbolicSampleSize == Vst::kSample32) || (symbolicSampleSize == Vst::kSample64)) ?
 	           kResultTrue :
@@ -52,7 +52,7 @@ tresult PLUGIN_API Rack::canProcessSampleSize (int32 symbolicSampleSize)
 }
 
 //-----------------------------------------------------------------------------
-tresult PLUGIN_API Rack::setBusArrangements (Vst::SpeakerArrangement* inputs, int32 numIns,
+tresult PLUGIN_API Plug::setBusArrangements (Vst::SpeakerArrangement* inputs, int32 numIns,
                                                       Vst::SpeakerArrangement* outputs,
                                                       int32 numOuts)
 {
@@ -66,24 +66,24 @@ tresult PLUGIN_API Rack::setBusArrangements (Vst::SpeakerArrangement* inputs, in
 }
 
 //-----------------------------------------------------------------------------
-tresult PLUGIN_API Rack::setupProcessing (Vst::ProcessSetup& setup)
+tresult PLUGIN_API Plug::setupProcessing (Vst::ProcessSetup& setup)
 {
 	if (setup.symbolicSampleSize == Vst::kSample64)
-		processAudioPtr = &Rack::processAudio<double>;
+		processAudioPtr = &Plug::processAudio<double>;
 	else
-		processAudioPtr = &Rack::processAudio<float>;
+		processAudioPtr = &Plug::processAudio<float>;
 
 	return AudioEffect::setupProcessing (setup);
 }
 
 //-----------------------------------------------------------------------------
-tresult PLUGIN_API Rack::setActive (TBool state)
+tresult PLUGIN_API Plug::setActive (TBool state)
 {
 	return AudioEffect::setActive (state);
 }
 
 //-----------------------------------------------------------------------------
-tresult PLUGIN_API Rack::process (Vst::ProcessData& data)
+tresult PLUGIN_API Plug::process (Vst::ProcessData& data)
 {
 	//--- Read inputs parameter changes-----------
 	if (data.inputParameterChanges)
@@ -129,7 +129,7 @@ tresult PLUGIN_API Rack::process (Vst::ProcessData& data)
 
 //------------------------------------------------------------------------
 template <typename SampleType>
-tresult Rack::processAudio (Vst::ProcessData& data)
+tresult Plug::processAudio (Vst::ProcessData& data)
 {
 	int32 numFrames = data.numSamples;
 
@@ -173,7 +173,7 @@ tresult Rack::processAudio (Vst::ProcessData& data)
 }
 
 //------------------------------------------------------------------------
-void Rack::getStereoPanCoef (int32 panType, float pan, float& left, float& right) const
+void Plug::getStereoPanCoef (int32 panType, float pan, float& left, float& right) const
 {
 	if (panType == kPanLawEqualPower)
 	{
@@ -189,7 +189,7 @@ void Rack::getStereoPanCoef (int32 panType, float pan, float& left, float& right
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API Rack::setState (IBStream* state)
+tresult PLUGIN_API Plug::setState (IBStream* state)
 {
 	if (!state)
 		return kResultFalse;
@@ -213,7 +213,7 @@ tresult PLUGIN_API Rack::setState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API Rack::getState (IBStream* state)
+tresult PLUGIN_API Plug::getState (IBStream* state)
 {
 	// here we need to save the model (preset or project)
 

@@ -4,6 +4,10 @@
 #include <backends/imgui_impl_sdl3.h>
 
 #include "base_window.h"
+#include "../event/window_event.h"
+
+namespace fausty
+{
 
 void BaseWindow::DestroyContext()
 {
@@ -77,6 +81,7 @@ void BaseWindow::SetQuitOnClose(bool quit_on_close)
     quit_on_close_ = quit_on_close;
 }
 
+/*
 bool BaseWindow::DoRun(RunParams params)
 {
 
@@ -121,6 +126,50 @@ bool BaseWindow::DoRun(RunParams params)
 
     return true;
 }
+*/
+bool BaseWindow::DoRun(RunParams params)
+{
+
+    Point origin(10, 10);
+    Size size(1280, 720);
+
+    bool success = CreateAndShow(params);
+
+    assert(success);
+    if (!success)
+    {
+        return false;
+    }
+
+    // Main loop
+    bool done = false;
+    while (!done)
+    {
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+
+            if (auto* raw = TryDecode<ResizeEvent>(event)) {
+                auto ev = Adopt(raw);
+                ApplyResize(ev->width, ev->height);
+            } else if (auto* raw = TryDecode<CloseEvent>(event)) {
+                auto ev = Adopt(raw);
+                //ApplyClose();
+                done = true;
+            }
+
+            ImGui_ImplSDL3_ProcessEvent(&event);
+
+            if (event.type == SDL_EVENT_QUIT)
+                done = true;
+            if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window_))
+                done = true;
+        }
+        Render();
+    }
+
+    return true;
+}
 
 bool BaseWindow::PostRun(RunParams params)
 {
@@ -140,6 +189,7 @@ void BaseWindow::Destroy()
     SDL_Quit();
 }
 
+/*
 void BaseWindow::RequestResize(int w, int h)
 {
     {
@@ -156,9 +206,26 @@ void BaseWindow::RequestResize(int w, int h)
     event.user.data2 = nullptr;
     SDL_PushEvent(&event);
 }
+*/
+void BaseWindow::RequestResize(int w, int h)
+{
+    Post<fausty::ResizeEvent>(w, h);
+}
 
-void BaseWindow::applyResize_(int w, int h)
+void BaseWindow::RequestClose()
+{
+    Post<fausty::CloseEvent>();
+}
+
+void BaseWindow::ApplyResize(int w, int h)
 {
     // Single place that touches SDL size; we’re on the window thread
     SDL_SetWindowSize(window_, w, h);
 }
+
+void BaseWindow::ApplyClose()
+{
+    // Handle close request
+}
+
+} // namespace fausty

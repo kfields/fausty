@@ -26,9 +26,6 @@ tresult PLUGIN_API PlugViewImpl::attached(void *parent, FIDString type)
 
     app_ = new MyApp();
 
-    // Release any current context on this (host) thread
-    //glfwMakeContextCurrent(nullptr);
-
     running_ = true;
     renderThread_ = std::thread([this]()
                                 { this->Run(); });
@@ -37,7 +34,7 @@ tresult PLUGIN_API PlugViewImpl::attached(void *parent, FIDString type)
 
 void PlugViewImpl::Run()
 {
-    const fausty::Window::RunParams runParams("", fausty::Window::Point(0, 0),
+    const fausty::Window::RunParams runParams("Fausty Panner", fausty::Window::Point(0, 0),
                                         fausty::Window::Size(rect.getWidth(), rect.getHeight()),
                                         parent_);
     app_->Run(runParams);
@@ -45,7 +42,11 @@ void PlugViewImpl::Run()
 
 tresult PLUGIN_API PlugViewImpl::removed()
 {
-    app_->Destroy();
+    //app_->Destroy();
+    app_->RequestClose();
+    running_ = false;
+    if (renderThread_.joinable())
+        renderThread_.join();
     return PlugView::removed();
 }
 

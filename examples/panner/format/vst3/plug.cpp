@@ -1,8 +1,8 @@
 #include "public.sdk/source/main/pluginfactory.h"
 
 #include "plug_editor_impl.h"	// for createInstance
-#include "rack.h"	// for createInstance
-#include "plug.h"			// for uids
+#include "plug.h"	// for createInstance
+#include "parameters.h"			// for uids
 #include "version.h"			// for version and naming
 
 #define stringSubCategory Vst::PlugType::kSpatialFx	// Subcategory for this plug-in (to be changed if needed, see PlugType in ivstaudioprocessor.h)
@@ -17,7 +17,7 @@ BEGIN_FACTORY_DEF (stringCompanyName, stringCompanyWeb,	stringCompanyEmail)
 				stringSubCategory,		// Subcategory for this plug-in (to be changed)
 				FULL_VERSION_STR,		// Plug-in version (to be changed)
 				kVstVersionString,		// the VST 3 SDK version (do not changed this, use always this define)
-				Steinberg::Panner::Rack::createInstance)	// function pointer called when this component should be instantiated
+				Steinberg::Panner::Plug::createInstance)	// function pointer called when this component should be instantiated
 
 	DEF_CLASS2 (INLINE_UID_FROM_FUID(Steinberg::Panner::MyControllerUID),
 				PClassInfo::kManyInstances,  // cardinality   
