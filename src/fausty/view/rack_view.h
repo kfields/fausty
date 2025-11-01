@@ -16,6 +16,7 @@ public:
     void PopulateWidgetMap(Widget *widget);
 
     void Draw() override;
+    void BeginMainDockspace();
 
 private:
     void LoadEditorState();
