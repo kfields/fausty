@@ -16,12 +16,12 @@ public:
     ImGui::EndGroup();
   }
   virtual void DrawChild(Widget& child) override {
-    if(widgets_.back() != &child)
+    if(children_.back() != &child)
       ImGui::SameLine();
 
     child.Draw();
     /*
-    if(widgets_.back() != &child)
+    if(children_.back() != &child)
       ImGui::SameLine();
     */
   }

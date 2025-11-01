@@ -9,7 +9,7 @@ namespace fausty {
 
 void ModelView::Build() {
   WidgetBuilder builder;
-  root_ = builder.Build(model());
+  root_ = builder.Build(*model());
 }
 
 } // namespace fausty

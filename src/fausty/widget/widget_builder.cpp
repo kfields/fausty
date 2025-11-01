@@ -11,7 +11,7 @@ Widget* WidgetBuilder::Build(Model& model) {
   WidgetFactory& factory = *WidgetManager::GetFactory(type);
   Widget& widget = *factory.Produce(model);
   for (const auto child : model.children_) {
-    widget.AddWidget(Build(*child));
+    widget.AddChild(Build(*child));
   }
   return &widget;
 }
