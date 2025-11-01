@@ -50,6 +50,6 @@ bool ModuleWidget::DrawNode() {
     return true;
 }
 
-DEFINE_WIDGET(ModuleWidget, Module)
+DEFINE_WIDGET_FACTORY(ModuleWidget, Module)
 
 } // namespace fausty

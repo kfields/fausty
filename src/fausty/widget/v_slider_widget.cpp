@@ -12,8 +12,7 @@ public:
     ImVec2 size(64, 128);
     ImGui::VSliderFloat(model_->label_, size, model_->zone_, model_->min_, model_->max_);
   }
-  DECLARE_WIDGET(VSliderWidget, VSlider)
 };
-DEFINE_WIDGET(VSliderWidget, VSlider)
+DEFINE_WIDGET_FACTORY(VSliderWidget, VSlider)
 
 } // namespace fausty

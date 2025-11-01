@@ -7,7 +7,7 @@
 
 #include <fausty/view/rack_view.h>
 #include <fausty/widget/widget.h>
-#include <fausty/widget/widget_manager.h>
+#include <fausty/widget/widget_manufacturer.h>
 
 #include "chain_dsp.h"
 

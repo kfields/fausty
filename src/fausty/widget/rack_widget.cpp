@@ -5,6 +5,6 @@
 
 namespace fausty {
 
-DEFINE_WIDGET(RackWidget, Rack)
+DEFINE_WIDGET_FACTORY(RackWidget, Rack)
 
 } // namespace fausty

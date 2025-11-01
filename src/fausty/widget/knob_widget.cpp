@@ -12,8 +12,7 @@ public:
     //ImGuiKnobs::Knob(model_->label_, model_->zone_, model_->min_, model_->max_, 0.1f, "%.1fdB", ImGuiKnobVariant_Wiper);
     ImGuiKnobs::Knob(model_->label_, model_->zone_, model_->min_, model_->max_, model_->step_, "%.1fdB", ImGuiKnobVariant_Wiper);
   }
-  DECLARE_WIDGET(KnobWidget, Knob)
 };
-DEFINE_WIDGET(KnobWidget, Knob)
+DEFINE_WIDGET_FACTORY(KnobWidget, Knob)
 
 } // namespace fausty

@@ -25,8 +25,7 @@ public:
       ImGui::SameLine();
     */
   }
-  DECLARE_WIDGET(HBoxWidget, HBox)
 };
-DEFINE_WIDGET(HBoxWidget, HBox)
+DEFINE_WIDGET_FACTORY(HBoxWidget, HBox)
 
 } // namespace fausty

@@ -11,8 +11,7 @@ public:
   void Draw() override {
     ImGui::SliderFloat(model_->label_, model_->zone_, model_->min_, model_->max_);
   }
-  DECLARE_WIDGET(HSliderWidget, HSlider)
 };
-DEFINE_WIDGET(HSliderWidget, HSlider)
+DEFINE_WIDGET_FACTORY(HSliderWidget, HSlider)
 
 } // namespace fausty

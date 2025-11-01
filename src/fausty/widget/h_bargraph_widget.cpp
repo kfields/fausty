@@ -15,8 +15,7 @@ public:
     ImPlot::PlotBars<fy_real>(model_->label_, model_->zone_, 1, 0.67, 0, ImPlotBarsFlags_Horizontal);
     ImPlot::EndPlot();
   }
-  DECLARE_WIDGET(HBarGraphWidget, HBarGraph)
 };
-DEFINE_WIDGET(HBarGraphWidget, HBarGraph)
+DEFINE_WIDGET_FACTORY(HBarGraphWidget, HBarGraph)
 
 } // namespace fausty

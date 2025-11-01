@@ -16,8 +16,7 @@ public:
       *model_->zone_ = 0.0;
     }
   }
-  DECLARE_WIDGET(ButtonWidget, Button)
 };
-DEFINE_WIDGET(ButtonWidget, Button)
+DEFINE_WIDGET_FACTORY(ButtonWidget, Button)
 
 } // namespace fausty

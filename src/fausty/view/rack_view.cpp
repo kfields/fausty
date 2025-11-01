@@ -97,11 +97,9 @@ void RackView::Draw() {
         // Left double-click on a hovered node
         if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
             // handle double-click on hovered_node_id
-            auto it = widget_map_.find(hovered_node_id);
-            if (it != widget_map_.end()) {
+            if (const auto it = widget_map_.find(hovered_node_id); it != widget_map_.end()) {
                 Widget* widget = it->second;
-                ModuleWidget* module_widget = dynamic_cast<ModuleWidget*>(widget);
-                if (module_widget) {
+                if (auto* module_widget = dynamic_cast<ModuleWidget*>(widget)) {
                     module_widget->is_open_ = !module_widget->is_open_;
                 }
             }

@@ -46,15 +46,14 @@ public:
 
 template <typename T, typename N = Model>
 class WidgetFactoryT : public WidgetFactory {
-    virtual Widget *Produce(Model &model) override { return new T((N &)model); }
-    virtual std::type_index GetKey() override {
+    Widget *Produce(Model &model) override { return new T((N &)model); }
+    std::type_index GetKey() override {
         return std::type_index(typeid(N));
     }
     // Data members
 };
 
-#define DECLARE_WIDGET(T, N)
-#define DEFINE_WIDGET(T, N)                                                    \
+#define DEFINE_WIDGET_FACTORY(T, N)                                                    \
     WidgetFactoryT<T, N> T##Factory;                                           \
     WidgetFactory *Get##T##Factory() { return &T##Factory; }
 

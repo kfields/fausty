@@ -14,8 +14,7 @@ public:
     if(changed)
       *model_->zone_ = value ? 1.0 : 0.0;
   }
-  DECLARE_WIDGET(CheckButtonWidget, CheckButton)
 };
-DEFINE_WIDGET(CheckButtonWidget, CheckButton)
+DEFINE_WIDGET_FACTORY(CheckButtonWidget, CheckButton)
 
 } // namespace fausty

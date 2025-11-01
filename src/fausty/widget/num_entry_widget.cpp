@@ -11,8 +11,7 @@ public:
   void Draw() override {
     ImGui::InputFloat(model_->label_, model_->zone_);
   }
-  DECLARE_WIDGET(NumEntryWidget, NumEntry)
 };
-DEFINE_WIDGET(NumEntryWidget, NumEntry)
+DEFINE_WIDGET_FACTORY(NumEntryWidget, NumEntry)
 
 } // namespace fausty

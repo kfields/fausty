@@ -17,8 +17,7 @@ public:
       ImGui::Separator();
     }
   }
-  DECLARE_WIDGET(VBoxWidget, VBox)
 };
-DEFINE_WIDGET(VBoxWidget, VBox)
+DEFINE_WIDGET_FACTORY(VBoxWidget, VBox)
 
 } // namespace fausty

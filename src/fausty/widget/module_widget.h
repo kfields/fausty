@@ -16,8 +16,6 @@ public:
     void ShowWindow() { is_open_ = true; }
     void HideWindow() { is_open_ = false; }
     
-    DECLARE_WIDGET(ModuleWidget, Module)
-
     // Data members
     bool is_open_ = false;
 };
