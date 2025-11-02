@@ -18,6 +18,9 @@ public:
     void Disconnect(Wire &wire);
     void AddOutput(Pin &output);
     void AddInput(Pin &input);
+    //
+    bool IsOutputPin(int pin_id) const;
+    bool IsInputPin(int pin_id) const;
     // Accessors
     // Data members
     std::list<Wire *> wires_;

@@ -174,7 +174,8 @@ void RackView::DrawModuleCatalog() {
                 continue;
 
             if (ImGui::Selectable(it->name_.c_str())) {
-                Model& node = *it->Produce(*model_);
+                // Model& node = *it->Produce(*model_);
+                Node &node = dynamic_cast<Node &>(*it->Produce(*model_));
                 model_->AddChild(node);
 
                 WidgetBuilder builder;
@@ -184,29 +185,34 @@ void RackView::DrawModuleCatalog() {
 
                 ImNodes::SetNodeScreenSpacePos(node.id_, pending_spawn_pos);
 
-                /*
                 // 5) If user was dragging a link, try to auto-connect
                 if (pending_link_start_attr != -1) {
                     // Decide direction based on the starting pin’s kind
-                    bool start_is_output =
-                        IsOutputPin(pending_link_start_attr); // your helper
+                    bool start_is_output = model_->IsOutputPin(
+                        pending_link_start_attr); // your helper
 
-                    // Find a compatible pin on the new node (your helpers)
-                    int target_attr = start_is_output
-                                          ? FindFirstInputPin(new_node_id)
-                                          : FindFirstOutputPin(new_node_id);
+                    Pin *output_pin = nullptr;
+                    Pin *input_pin = nullptr;
 
-                    if (target_attr != -1 &&
-                        ArePinsCompatible(pending_link_start_attr,
-                                          target_attr)) {
-                        AddLink(pending_link_start_attr,
-                                start_is_output ? target_attr
-                                                : pending_link_start_attr,
-                                start_is_output ? pending_link_start_attr
-                                                : target_attr);
+                    if (start_is_output) {
+                        // Find first input pin
+                        output_pin =
+                            model_->output_map_[pending_link_start_attr];
+                        if (!node.inport_.pins_.empty()) {
+                            input_pin = node.inport_.pins_[0];
+                        }
+                    } else {
+                        // Find first output pin
+                        if (!node.outport_.pins_.empty()) {
+                            output_pin = node.outport_.pins_[0];
+                        }
+                        input_pin =
+                            model_->input_map_[pending_link_start_attr];
+                    }
+                    if (output_pin && input_pin) {
+                        model_->Connect(*output_pin, *input_pin);
                     }
                 }
-                */
 
                 pending_link_start_attr = -1;
                 ImGui::CloseCurrentPopup();

@@ -19,4 +19,13 @@ void Graph::Disconnect(Wire& wire) {
   wire_map_.erase(wire.id_);
 }
 
+bool Graph::IsOutputPin(int pin_id) const {
+    return output_map_.find(pin_id) != output_map_.end();
+}
+
+bool Graph::IsInputPin(int pin_id) const {
+    return input_map_.find(pin_id) != input_map_.end();
+}
+
+
 } // namespace fausty
