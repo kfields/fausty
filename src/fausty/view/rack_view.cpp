@@ -3,13 +3,17 @@
 
 #include "imnodes.h"
 
-#include "rack_view.h"
-#include <fausty/widget/module_widget.h>
+#include <fausty/rack/model_manufacturer.h>
+#include <fausty/rack/module/module.h>
 
 #include <fausty/rack/pin.h>
 #include <fausty/rack/rack.h>
 #include <fausty/rack/wire.h>
-#include <fausty/rack/module/module.h>
+
+#include <fausty/widget/module_widget.h>
+#include <fausty/widget/widget_builder.h>
+
+#include "rack_view.h"
 
 namespace fausty {
 
@@ -23,8 +27,8 @@ RackView::~RackView() {
 }
 
 void RackView::Build() {
-    ModelView::Build();  // Call parent Build()
-    
+    ModelView::Build(); // Call parent Build()
+
     // After build completes, traverse root_ and populate widget_map_
     if (root_) {
         PopulateWidgetMap(root_);
@@ -32,15 +36,16 @@ void RackView::Build() {
 }
 
 // Helper to recursively populate widget_map_
-void RackView::PopulateWidgetMap(Widget* widget) {
-    if (!widget) return;
-    
+void RackView::PopulateWidgetMap(Widget *widget) {
+    if (!widget)
+        return;
+
     if (widget->model()) {
         widget_map_[widget->model()->id_] = widget;
     }
-    
+
     // Recursively process children
-    for (auto* child : widget->children_) {
+    for (auto *child : widget->children_) {
         PopulateWidgetMap(child);
     }
 }
@@ -61,9 +66,8 @@ void RackView::Draw() {
     BeginMainDockspace();
 
     ImGuiWindowFlags graph_flags =
-    ImGuiWindowFlags_NoScrollbar |
-    ImGuiWindowFlags_NoScrollWithMouse |
-    ImGuiWindowFlags_NoBringToFrontOnFocus; // <-- key
+        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+        ImGuiWindowFlags_NoBringToFrontOnFocus; // <-- key
 
     ImGui::Begin("Graph", nullptr, graph_flags);
 
@@ -77,41 +81,12 @@ void RackView::Draw() {
 
     ImNodes::EndNodeEditor();
 
-    int startId, endId;
-    bool createdFromSnap;
-    if (ImNodes::IsLinkCreated(&startId, &endId, &createdFromSnap)) {
-        Pin &output = *model_->output_map_[startId];
-        Pin &input = *model_->input_map_[endId];
-        model_->Connect(output, input);
-    }
+    CheckLinkCreated();
+    CheckLinkDestroyed();
+    CheckCreateNode();
+    CheckMouse();
 
-    int linkId;
-    if (ImNodes::IsLinkDestroyed(&linkId)) {
-        auto wire = model_->wire_map_[linkId];
-        model_->Disconnect(*wire);
-    }
-
-    int node_id = -1;
-    if (ImNodes::IsNodeHovered(&node_id)) {
-        hovered_node_id = node_id;
-        // Left double-click on a hovered node
-        if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
-            // handle double-click on hovered_node_id
-            if (const auto it = widget_map_.find(hovered_node_id); it != widget_map_.end()) {
-                Widget* widget = it->second;
-                if (auto* module_widget = dynamic_cast<ModuleWidget*>(widget)) {
-                    module_widget->is_open_ = !module_widget->is_open_;
-                }
-            }
-        }
-
-        // Right click on a hovered node
-        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-            // handle right-click on hovered_node_id
-            // e.g. open a context menu:
-            ImGui::OpenPopup("node_ctx");
-        }
-    }
+    DrawModuleCatalog();
 
     // Optional: context menu contents
     if (ImGui::BeginPopup("node_ctx")) {
@@ -124,21 +99,135 @@ void RackView::Draw() {
     ImGui::End();
 }
 
+void RackView::CheckLinkCreated() {
+    int startId, endId;
+    bool createdFromSnap;
+    if (ImNodes::IsLinkCreated(&startId, &endId, &createdFromSnap)) {
+        Pin &output = *model_->output_map_[startId];
+        Pin &input = *model_->input_map_[endId];
+        model_->Connect(output, input);
+    }
+}
+
+void RackView::CheckLinkDestroyed() {
+    int linkId;
+    if (ImNodes::IsLinkDestroyed(&linkId)) {
+        auto wire = model_->wire_map_[linkId];
+        model_->Disconnect(*wire);
+    }
+}
+
+void RackView::CheckCreateNode() {
+    if (ImNodes::IsLinkDropped(&pending_link_start_attr,
+                               /*including_detach*/ false)) {
+        pending_spawn_pos = ImGui::GetMousePos(); // screen space
+        ImGui::OpenPopup("ModuleCatalog");
+    }
+
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
+        ImNodes::IsEditorHovered() && !ImNodes::IsAnyAttributeActive() &&
+        !ImGui::IsAnyItemHovered()) {
+        pending_link_start_attr = -1; // no pending link
+        pending_spawn_pos = ImGui::GetMousePos();
+        ImGui::OpenPopup("ModuleCatalog");
+    }
+}
+
+void RackView::CheckMouse() {
+    int node_id = -1;
+    if (ImNodes::IsNodeHovered(&node_id)) {
+        hovered_node_id = node_id;
+        // Left double-click on a hovered node
+        if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+            // handle double-click on hovered_node_id
+            if (const auto it = widget_map_.find(hovered_node_id);
+                it != widget_map_.end()) {
+                Widget *widget = it->second;
+                if (auto *module_widget =
+                        dynamic_cast<ModuleWidget *>(widget)) {
+                    module_widget->is_open_ = !module_widget->is_open_;
+                }
+            }
+        }
+
+        // Right click on a hovered node
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+            // handle right-click on hovered_node_id
+            // e.g. open a context menu:
+            ImGui::OpenPopup("node_ctx");
+        }
+    }
+}
+
+void RackView::DrawModuleCatalog() {
+    if (ImGui::BeginPopup("ModuleCatalog")) {
+        // Place popup under cursor
+        ImGui::SetWindowPos(pending_spawn_pos, ImGuiCond_Always);
+
+        // Simple filter + list (replace with your real catalog)
+        static char filter[64] = "";
+        ImGui::InputTextWithHint("##filter", "Search modules…", filter,
+                                 IM_ARRAYSIZE(filter));
+
+        for (const auto &it : ModelManufacturer::instance().factories_) {
+            if (filter[0] && !strstr(it->name_.c_str(), filter))
+                continue;
+
+            if (ImGui::Selectable(it->name_.c_str())) {
+                Model& node = *it->Produce(*model_);
+                model_->AddChild(node);
+
+                WidgetBuilder builder;
+                Widget *widget = builder.Build(node);
+                root_->AddChild(widget);
+                widget_map_[node.id_] = widget;
+
+                ImNodes::SetNodeScreenSpacePos(node.id_, pending_spawn_pos);
+
+                /*
+                // 5) If user was dragging a link, try to auto-connect
+                if (pending_link_start_attr != -1) {
+                    // Decide direction based on the starting pin’s kind
+                    bool start_is_output =
+                        IsOutputPin(pending_link_start_attr); // your helper
+
+                    // Find a compatible pin on the new node (your helpers)
+                    int target_attr = start_is_output
+                                          ? FindFirstInputPin(new_node_id)
+                                          : FindFirstOutputPin(new_node_id);
+
+                    if (target_attr != -1 &&
+                        ArePinsCompatible(pending_link_start_attr,
+                                          target_attr)) {
+                        AddLink(pending_link_start_attr,
+                                start_is_output ? target_attr
+                                                : pending_link_start_attr,
+                                start_is_output ? pending_link_start_attr
+                                                : target_attr);
+                    }
+                }
+                */
+
+                pending_link_start_attr = -1;
+                ImGui::CloseCurrentPopup();
+            }
+        }
+
+        ImGui::EndPopup();
+    }
+}
+
 static bool s_built_dock = false;
 
-void RackView::BeginMainDockspace()
-{
+void RackView::BeginMainDockspace() {
     ImGuiWindowFlags host_flags =
-        ImGuiWindowFlags_NoDocking |
-        ImGuiWindowFlags_NoTitleBar |
-        ImGuiWindowFlags_NoCollapse |
-        ImGuiWindowFlags_NoResize |
-        ImGuiWindowFlags_NoMove |
-        ImGuiWindowFlags_NoBringToFrontOnFocus |
+        ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
+        ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
         ImGuiWindowFlags_NoNavFocus |
         ImGuiWindowFlags_NoBackground; // optional, keeps it invisible
 
-    ImGuiViewport* vp = ImGui::GetMainViewport();
+    ImGuiViewport *vp = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(vp->WorkPos);
     ImGui::SetNextWindowSize(vp->WorkSize);
     ImGui::SetNextWindowViewport(vp->ID);
@@ -153,12 +242,13 @@ void RackView::BeginMainDockspace()
 
     // Create a dockspace filling this host window
     ImGuiID dockspace_id = ImGui::GetID("MainDockspace");
-    ImGuiDockNodeFlags dock_flags = ImGuiDockNodeFlags_PassthruCentralNode; // central node draws your windows
+    ImGuiDockNodeFlags dock_flags =
+        ImGuiDockNodeFlags_PassthruCentralNode; // central node draws your
+                                                // windows
     ImGui::DockSpace(dockspace_id, ImVec2(0, 0), dock_flags);
 
     // Build default layout once
-    if (!s_built_dock)
-    {
+    if (!s_built_dock) {
         s_built_dock = true;
 
         ImGui::DockBuilderRemoveNode(dockspace_id);
@@ -167,12 +257,14 @@ void RackView::BeginMainDockspace()
 
         ImGuiID dock_main_id = dockspace_id;
         ImGuiID dock_right, dock_bottom;
-        dock_right  = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
-        dock_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down,  0.30f, nullptr, &dock_main_id);
+        dock_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right,
+                                                 0.25f, nullptr, &dock_main_id);
+        dock_bottom = ImGui::DockBuilderSplitNode(
+            dock_main_id, ImGuiDir_Down, 0.30f, nullptr, &dock_main_id);
 
-        ImGui::DockBuilderDockWindow("Graph",     dock_main_id);   // central
-        ImGui::DockBuilderDockWindow("Inspector", dock_right);     // right
-        ImGui::DockBuilderDockWindow("Console",   dock_bottom);    // bottom
+        ImGui::DockBuilderDockWindow("Graph", dock_main_id);   // central
+        ImGui::DockBuilderDockWindow("Inspector", dock_right); // right
+        ImGui::DockBuilderDockWindow("Console", dock_bottom);  // bottom
         ImGui::DockBuilderFinish(dockspace_id);
     }
 

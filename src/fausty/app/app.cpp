@@ -17,16 +17,11 @@
 
 namespace fausty {
 
-bool App::booted_ = false;
+App::App() {};
 
-App::App() { Boot(); };
-
-void App::Boot() {
-    if (booted_)
-        return;
-    booted_ = true;
-
-    bool success = InitUserEvents();
+bool App::DoCreate(CreateParams params) {
+    bool success = Window::DoCreate(params);
+    success = InitUserEvents() && success;
 
     REGISTER_WIDGET_FACTORY(RackWidget)
     REGISTER_WIDGET_FACTORY(ModuleWidget)
@@ -39,6 +34,8 @@ void App::Boot() {
     REGISTER_WIDGET_FACTORY(VSliderWidget)
     REGISTER_WIDGET_FACTORY(HBarGraphWidget)
     REGISTER_WIDGET_FACTORY(KnobWidget)
+
+    return success;
 }
 
 void App::CreateContext() {

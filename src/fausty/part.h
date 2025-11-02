@@ -7,7 +7,8 @@ namespace fausty {
 
 class Part {
 public:
-  Part() : owner_(nullptr), id_(instanceCounter_++) {}
+    virtual ~Part() = default;
+    Part() : owner_(nullptr), id_(instanceCounter_++) {}
   virtual bool Create(Part& owner) { owner_ = &owner;  return true; }
   virtual bool Create() { owner_ = nullptr;  return true; }
   virtual void Destroy() {}

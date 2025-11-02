@@ -1,20 +1,20 @@
 //#include <rttr/type>
 #include "../reflect.h"
-#include "module_manufacturer.h"
-#include "module.h"
+#include "model_manufacturer.h"
+#include "model.h"
 
 namespace fausty {
 
-void ModuleManufacturer::AddFactory(ModelFactory& factory) {
+void ModelManufacturer::AddFactory(ModelFactory& factory) {
   factories_.push_back(&factory);
   factory_map_[factory.GetKey()] = &factory;
 }
 
-ModelFactory* ModuleManufacturer::GetFactory(std::type_index& key) {
+ModelFactory* ModelManufacturer::GetFactory(std::type_index& key) {
   return FindFactory(key);
 }
 
-ModelFactory* ModuleManufacturer::FindFactory(const std::type_index& t) {
+ModelFactory* ModelManufacturer::FindFactory(const std::type_index& t) {
   // exact match
   if (auto it = factory_map_.find(t); it != factory_map_.end())
     return it->second;

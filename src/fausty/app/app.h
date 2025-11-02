@@ -6,19 +6,20 @@ namespace fausty {
 
 class App : public Window {
 public:
-  App();
-  static void Boot();
-  //virtual ~App();
-  void CreateContext() override;
+    App();
+    // virtual ~App();
 
-  void Destroy() override;
-  bool PostCreate(CreateParams params) override;
-  void Render() override;
+    void CreateContext() override;
 
-  //Data members
-  static bool booted_;
-  bool show_demo_window = true;
-  bool show_another_window = false;
+    bool DoCreate(CreateParams params) override;
+    bool PostCreate(CreateParams params) override;
+    void Destroy() override;
+
+    void Render() override;
+
+    // Data members
+    bool show_demo_window = true;
+    bool show_another_window = false;
 };
 
 } // namespace fausty

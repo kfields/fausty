@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+#include <utility>
 #include <vector>
 
 #include <fausty/part.h>
@@ -8,10 +10,10 @@ namespace fausty {
 
 class Model : public Part {
 public:
-    Model() {}
+    Model() = default;
     void AddChild(Model &model) { children_.push_back(&model); }
     // Accessors
-    Model &parent() { return *(Model *)owner_; }
+    [[nodiscard]] Model &parent() const { return *dynamic_cast<Model *>(owner_); }
     // Data members
     std::vector<Model *> children_;
 
@@ -27,23 +29,33 @@ template <typename T = Model> class ModelT : T {
 // Factory
 class ModelFactory {
 public:
-    virtual Model &Produce(Model &model) = 0;
+    virtual ~ModelFactory() = default;
+    ModelFactory(std::string name, std::string category) : name_(std::move(name)), category_(std::move(category)) {}
+    virtual Model *Produce(Model &model) = 0;
     virtual std::type_index GetKey() = 0;
+    // Data members
+    std::string name_;
+    std::string category_;
 };
 
-template <typename T> class ModelFactoryT : public ModelFactory {
+template <typename T> class ModelFactoryT final : public ModelFactory {
 public:
-    ModelFactoryT() {}
+    //ModelFactoryT() {}
+    using ModelFactory::ModelFactory;
     static T &Make(Model &parent) {
         T &model = *new T();
         model.Create(parent);
         return model;
     }
-    virtual Model &Produce(Model &parent) override { return Make(parent); }
-    virtual std::type_index GetKey() override {
+    Model *Produce(Model &parent) override { return &Make(parent); }
+    std::type_index GetKey() override {
         return std::type_index(typeid(T));
     }
     // Data members
 };
+
+#define DEFINE_MODEL_FACTORY(T, NAME, CATEGORY)                                                    \
+    ModelFactoryT<T> T##Factory(NAME, CATEGORY);                                           \
+    ModelFactory *Get##T##Factory() { return &T##Factory; }
 
 } // namespace fausty

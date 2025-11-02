@@ -9,10 +9,10 @@ namespace fausty {
 
 class ModelFactory;
 
-class ModuleManufacturer {
+class ModelManufacturer {
 public:
-    static ModuleManufacturer &instance() noexcept {
-        static ModuleManufacturer *self = new ModuleManufacturer();
+    static ModelManufacturer &instance() noexcept {
+        static auto *self = new ModelManufacturer();
         return *self;
     }
     void AddFactory(ModelFactory &factory);
@@ -23,8 +23,8 @@ public:
     std::map<std::type_index, ModelFactory *> factory_map_;
 };
 
-#define REGISTER_MODULE_FACTORY(T)                                             \
+#define REGISTER_MODEL_FACTORY(T)                                             \
     extern ModelFactory *Get##T##Factory();                                   \
-    ModuleManufacturer::instance().AddFactory(*Get##T##Factory());
+    ModelManufacturer::instance().AddFactory(*Get##T##Factory());
 
 } // namespace fausty
