@@ -36,3 +36,5 @@ add_subdirectory(chain)
 add_subdirectory(multi)
 
 add_subdirectory(bubble)
+
+add_subdirectory(daw)
