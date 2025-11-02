@@ -13,7 +13,9 @@ public:
     Model() = default;
     void AddChild(Model &model) { children_.push_back(&model); }
     // Accessors
-    [[nodiscard]] Model &parent() const { return *dynamic_cast<Model *>(owner_); }
+    [[nodiscard]] Model &parent() const {
+        return *dynamic_cast<Model *>(owner_);
+    }
     // Data members
     std::vector<Model *> children_;
 
@@ -30,7 +32,8 @@ template <typename T = Model> class ModelT : T {
 class ModelFactory {
 public:
     virtual ~ModelFactory() = default;
-    ModelFactory(std::string name, std::string category) : name_(std::move(name)), category_(std::move(category)) {}
+    ModelFactory(std::string name, std::string category)
+        : name_(std::move(name)), category_(std::move(category)) {}
     virtual Model *Produce(Model &model) = 0;
     virtual std::type_index GetKey() = 0;
     // Data members
@@ -40,7 +43,7 @@ public:
 
 template <typename T> class ModelFactoryT final : public ModelFactory {
 public:
-    //ModelFactoryT() {}
+    // ModelFactoryT() {}
     using ModelFactory::ModelFactory;
     static T &Make(Model &parent) {
         T &model = *new T();
@@ -48,14 +51,12 @@ public:
         return model;
     }
     Model *Produce(Model &parent) override { return &Make(parent); }
-    std::type_index GetKey() override {
-        return std::type_index(typeid(T));
-    }
+    std::type_index GetKey() override { return std::type_index(typeid(T)); }
     // Data members
 };
 
-#define DEFINE_MODEL_FACTORY(T, NAME, CATEGORY)                                                    \
-    ModelFactoryT<T> T##Factory(NAME, CATEGORY);                                           \
+#define DEFINE_MODEL_FACTORY(T, NAME, CATEGORY)                                \
+    ModelFactoryT<T> T##Factory(NAME, CATEGORY);                               \
     ModelFactory *Get##T##Factory() { return &T##Factory; }
 
 } // namespace fausty

@@ -159,6 +159,45 @@ bool BaseWindow::DoRun(RunParams params)
     }
 
     // Main loop
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
+    Uint32 frameStart;
+    int frameTime;
+    bool done = false;
+
+    while (!done)
+    {
+        frameStart = SDL_GetTicks();
+        //Render();
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            done = Dispatch(event);
+        }
+
+        Render();
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime) {
+            SDL_Delay(frameDelay - frameTime);
+        }
+    }
+
+    return true;
+}
+
+/*
+bool BaseWindow::DoRun(RunParams params)
+{
+    bool success = CreateAndShow(params);
+
+    assert(success);
+    if (!success)
+    {
+        return false;
+    }
+
+    // Main loop
     bool done = false;
     while (!done)
     {
@@ -176,6 +215,7 @@ bool BaseWindow::DoRun(RunParams params)
 
     return true;
 }
+*/
 
 bool BaseWindow::PostRun(RunParams params)
 {

@@ -16,9 +16,10 @@ public:
     void PopulateWidgetMap(Widget *widget);
 
     void Draw() override;
+
+    void DrawMainDockspace();
     void DrawModuleCatalog();
 
-    void BeginMainDockspace();
 
     void CheckLinkCreated();
     void CheckLinkDestroyed();
@@ -32,6 +33,7 @@ private:
 
     // Data members
     std::map<int, Widget *> widget_map_;
+    bool is_editor_hovered_ = false;
     int hovered_node_id = -1;
     int pending_link_start_attr = -1;
     ImVec2 pending_spawn_pos = ImVec2(0, 0);

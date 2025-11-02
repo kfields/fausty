@@ -63,7 +63,7 @@ void RackView::Draw() {
         Build();
     }
 
-    BeginMainDockspace();
+    DrawMainDockspace();
 
     ImGuiWindowFlags graph_flags =
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
@@ -79,12 +79,15 @@ void RackView::Draw() {
         ImNodes::Link(wire->id_, wire->output_->id_, wire->input_->id_);
     }
 
+    is_editor_hovered_ = ImNodes::IsEditorHovered();
+
     ImNodes::EndNodeEditor();
+
+    CheckMouse();
 
     CheckLinkCreated();
     CheckLinkDestroyed();
     CheckCreateNode();
-    CheckMouse();
 
     DrawModuleCatalog();
 
@@ -118,6 +121,8 @@ void RackView::CheckLinkDestroyed() {
 }
 
 void RackView::CheckCreateNode() {
+    int node_id = -1;
+
     if (ImNodes::IsLinkDropped(&pending_link_start_attr,
                                /*including_detach*/ false)) {
         pending_spawn_pos = ImGui::GetMousePos(); // screen space
@@ -125,8 +130,8 @@ void RackView::CheckCreateNode() {
     }
 
     if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
-        ImNodes::IsEditorHovered() && !ImNodes::IsAnyAttributeActive() &&
-        !ImGui::IsAnyItemHovered()) {
+        is_editor_hovered_ && !ImNodes::IsAnyAttributeActive() &&
+        !ImGui::IsAnyItemHovered() && !ImNodes::IsNodeHovered(&node_id)) {
         pending_link_start_attr = -1; // no pending link
         pending_spawn_pos = ImGui::GetMousePos();
         ImGui::OpenPopup("ModuleCatalog");
@@ -206,12 +211,12 @@ void RackView::DrawModuleCatalog() {
                         if (!node.outport_.pins_.empty()) {
                             output_pin = node.outport_.pins_[0];
                         }
-                        input_pin =
-                            model_->input_map_[pending_link_start_attr];
+                        input_pin = model_->input_map_[pending_link_start_attr];
                     }
                     if (output_pin && input_pin) {
                         model_->Connect(*output_pin, *input_pin);
                     }
+                    // pending_link_start_attr = -1;
                 }
 
                 pending_link_start_attr = -1;
@@ -225,7 +230,7 @@ void RackView::DrawModuleCatalog() {
 
 static bool s_built_dock = false;
 
-void RackView::BeginMainDockspace() {
+void RackView::DrawMainDockspace() {
     ImGuiWindowFlags host_flags =
         ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
         ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |

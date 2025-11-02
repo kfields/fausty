@@ -13,6 +13,8 @@ void ImGuiSystem::Create()
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
   // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
   io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+  io.ConfigDockingWithShift = true;
+  
   // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
   // io.ConfigViewportsNoAutoMerge = true;
