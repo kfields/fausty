@@ -10,12 +10,19 @@
 #include <fausty/view/rack_view.h>
 #include <fausty/widget/widget_manufacturer.h>
 
-#include "flanger_dsp.h"
-#include "freeverb_dsp.h"
+#include "frenchbell_dsp.h"
 #include "osc_dsp.h"
+#include "freeverb_dsp.h"
+#include "flanger_dsp.h"
 #include "phaser_dsp.h"
 
 using namespace fausty;
+
+class FrenchBellDspImpl : public FrenchBellDsp {
+public:
+    REFLECT_ENABLE(FrenchBellDsp)
+};
+DEFINE_MODEL_FACTORY(FrenchBellDspImpl, "French Bell", "Instrument")
 
 class OscDspImpl final : public OscDsp {
     REFLECT_ENABLE(FaustDsp)
@@ -54,6 +61,7 @@ public:
         rack_.AddChild(m4);
         */
 
+        REGISTER_MODEL_FACTORY(FrenchBellDspImpl);
         REGISTER_MODEL_FACTORY(OscDspImpl);
         REGISTER_MODEL_FACTORY(FreeVerbDspImpl);
         REGISTER_MODEL_FACTORY(FlangerDspImpl);
