@@ -10,63 +10,14 @@
 #include <fausty/view/rack_view.h>
 #include <fausty/widget/widget_manufacturer.h>
 
-#include "frenchbell_dsp.h"
-#include "osc_dsp.h"
-#include "freeverb_dsp.h"
-#include "flanger_dsp.h"
-#include "phaser_dsp.h"
-
 using namespace fausty;
-
-class FrenchBellDspImpl : public FrenchBellDsp {
-public:
-    REFLECT_ENABLE(FrenchBellDsp)
-};
-DEFINE_MODEL_FACTORY(FrenchBellDspImpl, "French Bell", "Instrument")
-
-class OscDspImpl final : public OscDsp {
-    REFLECT_ENABLE(FaustDsp)
-};
-DEFINE_MODEL_FACTORY(OscDspImpl, "Oscillator", "Generator")
-
-class FreeVerbDspImpl final : public FreeVerbDsp {
-    REFLECT_ENABLE(FaustDsp)
-};
-DEFINE_MODEL_FACTORY(FreeVerbDspImpl, "Freeverb", "Reverb")
-
-class FlangerDspImpl final : public FlangerDsp {
-    REFLECT_ENABLE(FaustDsp)
-};
-DEFINE_MODEL_FACTORY(FlangerDspImpl, "Flanger", "Effect")
-
-class PhaserDspImpl final : public PhaserDsp {
-    REFLECT_ENABLE(FaustDsp)
-};
-DEFINE_MODEL_FACTORY(PhaserDspImpl, "Phaser", "Effect")
 
 class MyApp final : public App {
 public:
     MyApp() {
-        /*
-        OscDsp &m = ModelFactoryT<OscDspImpl>::Make(rack_);
-        rack_.AddChild(m);
-
-        FreeVerbDsp &m2 = ModelFactoryT<FreeVerbDspImpl>::Make(rack_);
-        rack_.AddChild(m2);
-
-        FlangerDsp &m3 = ModelFactoryT<FlangerDspImpl>::Make(rack_);
-        rack_.AddChild(m3);
-
-        PhaserDsp &m4 = ModelFactoryT<PhaserDspImpl>::Make(rack_);
-        rack_.AddChild(m4);
-        */
-
-        REGISTER_MODEL_FACTORY(FrenchBellDspImpl);
-        REGISTER_MODEL_FACTORY(OscDspImpl);
-        REGISTER_MODEL_FACTORY(FreeVerbDspImpl);
-        REGISTER_MODEL_FACTORY(FlangerDspImpl);
-        REGISTER_MODEL_FACTORY(PhaserDspImpl);
-
+        extern void InitFaustDspLibrary();
+        InitFaustDspLibrary();
+        // Create the rack view
         view_ = new RackView(rack_);
     }
 

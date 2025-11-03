@@ -12,10 +12,8 @@ target_include_directories(${THIS} PRIVATE ${PROJECT_ROOT})
 
 include(${FAUSTY_CMAKE}/ExeApp.cmake)
 include(${FAUSTY_CMAKE}/ExeRack.cmake)
-include(${FAUSTY_CMAKE}/Library.cmake)
 include(${THIS_DIR}/../../cmake/Common.cmake)
 
 USES_EXE_APP(${THIS})
 USES_EXE_RACK(${THIS})
-USES_LIBRARY(${THIS})
 USES_COMMON(${THIS})

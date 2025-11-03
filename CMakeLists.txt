@@ -84,3 +84,6 @@ add_subdirectory(src/fausty)
 
 #Examples
 add_subdirectory(examples)
+
+#Library
+add_subdirectory(library)

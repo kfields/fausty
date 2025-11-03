@@ -1,0 +1,127 @@
+# --- Find Faust --------------------------------------------------------------
+# Allow override: cmake -DFAUST_EXECUTABLE=/path/to/faust ..
+find_program(FAUST_EXECUTABLE NAMES faust HINTS ENV PATH)
+if (NOT FAUST_EXECUTABLE)
+  message(FATAL_ERROR "Faust compiler not found. Set FAUST_EXECUTABLE or ensure 'faust' is on PATH.")
+endif()
+
+# Root where generated headers will live in the build tree
+set(FAUST_GEN_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/faust")
+file(MAKE_DIRECTORY "${FAUST_GEN_DIR}")
+
+# Common include dirs you pass to faust (-I). Add more as needed.
+# Example mirrors your command: -I ./depot/faust
+set(FAUST_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/depot/faust")
+
+# Default superclass (-scn) for all DSPs here
+set(FAUST_SUPERCLASS "fausty::FaustDsp")
+
+# Helper function to add a single DSP -> header rule
+#
+# Usage:
+#   faust_generate_header(
+#     TARGET      <aggregate custom target name>
+#     DSP         <path/to/file.dsp>
+#     OUT_HEADER  <filename.h>           # (optional) defaults to <basename>_dsp.h
+#     CLASS_NAME  <CppClassName>         # (required) -cn
+#     EXTRA_ARGS  <faust flags...>       # (optional)
+#   )
+function(faust_generate_header)
+  cmake_parse_arguments(FG "" "TARGET;DSP;OUT_HEADER;CLASS_NAME" "EXTRA_ARGS" ${ARGN})
+
+  if (NOT FG_TARGET)
+    message(FATAL_ERROR "faust_generate_header: TARGET is required")
+  endif()
+  if (NOT FG_DSP)
+    message(FATAL_ERROR "faust_generate_header: DSP is required")
+  endif()
+  if (NOT FG_CLASS_NAME)
+    message(FATAL_ERROR "faust_generate_header: CLASS_NAME (-cn) is required")
+  endif()
+
+  get_filename_component(_dsp_abs "${FG_DSP}" ABSOLUTE)
+  get_filename_component(_name_we "${FG_DSP}" NAME_WE)
+
+  # Output header filename
+  if (FG_OUT_HEADER)
+    set(_out_name "${FG_OUT_HEADER}")
+  else()
+    set(_out_name "${_name_we}_dsp.h")
+  endif()
+
+  set(_out_path "${FAUST_GEN_DIR}/${_out_name}")
+
+  # Build up -I args
+  set(_faust_I_args "")
+  foreach(_I IN LISTS FAUST_INCLUDE_DIRS)
+    list(APPEND _faust_I_args -I "${_I}")
+  endforeach()
+
+  add_custom_command(
+    OUTPUT  "${_out_path}"
+    COMMAND "${FAUST_EXECUTABLE}"
+            "${_dsp_abs}"
+            -o "${_out_path}"
+            ${_faust_I_args}
+            -cn "${FG_CLASS_NAME}"
+            -scn "${FAUST_SUPERCLASS}"
+            ${FG_EXTRA_ARGS}
+    DEPENDS "${_dsp_abs}"
+    BYPRODUCTS "${_out_path}"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "Faust: ${_name_we}.dsp -> ${_out_name}"
+    VERBATIM
+  )
+
+  # Aggregate them under a single target so you can build/regenerate easily
+  add_custom_target("${_name_we}_faust_header" DEPENDS "${_out_path}")
+  add_dependencies("${FG_TARGET}" "${_name_we}_faust_header")
+
+  # Expose result to caller via a property/list they can collect if desired
+  set_property(GLOBAL APPEND PROPERTY FAUST_GENERATED_HEADERS "${_out_path}")
+endfunction()
+
+# --- Example: define an aggregate target for all faust headers ----------------
+add_custom_target(faust_headers ALL)  # remove ALL if you don't want them built by default
+
+# Generate your example frenchBell
+faust_generate_header(
+  TARGET     faust_headers
+  DSP        "${CMAKE_CURRENT_SOURCE_DIR}/dsp/frenchBell.dsp"
+  OUT_HEADER "frenchbell_dsp.h"
+  CLASS_NAME "FrenchBellDsp"
+  # EXTRA_ARGS can include any additional faust switches (e.g., backend options)
+  # EXTRA_ARGS -vec -vs  # example: enable vectorization flags, etc.
+)
+
+# Generate more DSPs the same way:
+# faust_generate_header(TARGET faust_headers DSP dsp/organ.dsp CLASS_NAME OrganDsp)
+# faust_generate_header(TARGET faust_headers DSP dsp/drums.dsp CLASS_NAME DrumsDsp OUT_HEADER drums.h)
+
+# --- Library that consumes the generated headers -----------------------------
+# Example library that will #include the generated headers
+add_library(fausty_dsp STATIC
+  library.cpp
+  # you can also add the generated headers to sources for IDE visibility:
+  "${FAUST_GEN_DIR}/frenchbell_dsp.h"
+)
+
+# Ensure the headers are generated before building the library
+add_dependencies(fausty_dsp faust_headers)
+
+# Point consumers (and this target) at the generated include directory
+target_include_directories(fausty_dsp
+  PUBLIC
+    "$<BUILD_INTERFACE:${FAUST_GEN_DIR}>"
+    "$<INSTALL_INTERFACE:include/faust>"          # if you plan to install them
+)
+
+# If your code needs to include files that faust included at compile time:
+# target_include_directories(fausty_dsp PRIVATE "${FAUST_INCLUDE_DIRS}")
+
+# --- (Optional) install the generated headers --------------------------------
+# Collect all generated headers from our helper's GLOBAL property
+get_property(_faust_headers GLOBAL PROPERTY FAUST_GENERATED_HEADERS)
+if (_faust_headers)
+  install(FILES ${_faust_headers} DESTINATION include/faust)
+endif()
