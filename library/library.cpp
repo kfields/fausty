@@ -4,6 +4,7 @@
 #include <fausty/rack/module/faust_dsp_ui.h>
 #include <fausty/rack/module/module.h>
 
+#include "dbmeter_dsp.h"
 #include "flanger_dsp.h"
 #include "freeverb_dsp.h"
 #include "frenchbell_dsp.h"
@@ -12,9 +13,17 @@
 
 using namespace fausty;
 
+// Analysis
+
+class DbMeterDspImpl : public DbMeterDsp {
+public:
+    REFLECT_ENABLE(FaustDsp)
+};
+DEFINE_MODEL_FACTORY(DbMeterDspImpl, "Db Meter", "Analysis")
+
 class FrenchBellDspImpl : public FrenchBellDsp {
 public:
-    REFLECT_ENABLE(FrenchBellDsp)
+    REFLECT_ENABLE(FaustDsp)
 };
 DEFINE_MODEL_FACTORY(FrenchBellDspImpl, "French Bell", "Instrument")
 
@@ -39,6 +48,7 @@ class PhaserDspImpl final : public PhaserDsp {
 DEFINE_MODEL_FACTORY(PhaserDspImpl, "Phaser", "Effect")
 
 void InitFaustDspLibrary() {
+    REGISTER_MODEL_FACTORY(DbMeterDspImpl);
     REGISTER_MODEL_FACTORY(FrenchBellDspImpl);
     REGISTER_MODEL_FACTORY(OscDspImpl);
     REGISTER_MODEL_FACTORY(FreeverbDspImpl);

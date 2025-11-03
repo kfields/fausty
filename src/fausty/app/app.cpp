@@ -33,6 +33,7 @@ bool App::DoCreate(CreateParams params) {
     REGISTER_WIDGET_FACTORY(HSliderWidget)
     REGISTER_WIDGET_FACTORY(VSliderWidget)
     REGISTER_WIDGET_FACTORY(HBarGraphWidget)
+    REGISTER_WIDGET_FACTORY(VBarGraphWidget)
     REGISTER_WIDGET_FACTORY(KnobWidget)
 
     return success;

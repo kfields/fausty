@@ -1,30 +1,27 @@
 #include "imgui.h"
 
-#include "widget.h"
+#include "box_widget.h"
 #include <fausty/rack/control/h_box.h>
 
 namespace fausty {
 
-class HBoxWidget : public WidgetT<HBox> {
+class HBoxWidget : public BoxWidgetT<HBox> {
 public:
-  HBoxWidget(HBox& model) : WidgetT<HBox>(model) {}
-  void Draw() override {
-    ImGui::BeginGroup();
-    //ImGui::PushItemWidth(128);
-    DrawChildren();
-    //ImGui::PopItemWidth();
-    ImGui::EndGroup();
-  }
-  virtual void DrawChild(Widget& child) override {
-    if(children_.back() != &child)
-      ImGui::SameLine();
+    HBoxWidget(HBox &model) : BoxWidgetT<HBox>(model) {}
+    void Draw() override {
+        // ImGui::Text("%s", model_->label_);
+        //ImGui::SeparatorText(model_->label_);
+        DrawHeader();
+        ImGui::BeginGroup();
+        DrawChildren();
+        ImGui::EndGroup();
+    }
+    virtual void DrawChild(Widget &child) override {
+        child.Draw();
 
-    child.Draw();
-    /*
-    if(children_.back() != &child)
-      ImGui::SameLine();
-    */
-  }
+        if (children_.back() != &child)
+            ImGui::SameLine();
+    }
 };
 DEFINE_WIDGET_FACTORY(HBoxWidget, HBox)
 

@@ -9,7 +9,8 @@ if(NOT FAUST_EXECUTABLE)
 endif()
 
 # Where Faust includes live (your -I)
-set(FAUST_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/depot/faust")
+set(FAUST_INCLUDE_DIRS "${FAUSTY_ROOT}/depot/faust")
+set(FAUST_EXAMPLES_DIR "${FAUSTY_ROOT}/depot/faust/examples")
 
 # Collect outputs in a variable (not via per-file custom targets)
 set(_ALL_FAUST_HEADERS "")
@@ -60,36 +61,48 @@ endfunction()
 
 # ---- Declare your DSPs exactly once -----------------------------------------
 
+# Analysis
 faust_generate_header_once(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dsp/phaser.dsp"
+  "${FAUST_EXAMPLES_DIR}/analysis/dbmeter.dsp"
+  "DbMeterDsp"
+  "dbmeter_dsp.h"
+)
+list(APPEND _ALL_FAUST_HEADERS "${GENERATED_HEADER}")
+
+# Phasing
+faust_generate_header_once(
+  "${FAUST_EXAMPLES_DIR}/phasing/phaser.dsp"
   "PhaserDsp"
   "phaser_dsp.h"
 )
 list(APPEND _ALL_FAUST_HEADERS "${GENERATED_HEADER}")
 
 faust_generate_header_once(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dsp/flanger.dsp"
+  "${FAUST_EXAMPLES_DIR}/phasing/flanger.dsp"
   "FlangerDsp"
   "flanger_dsp.h"
 )
 list(APPEND _ALL_FAUST_HEADERS "${GENERATED_HEADER}")
 
+# Physical Modeling
 faust_generate_header_once(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dsp/frenchBell.dsp"
+  "${FAUST_EXAMPLES_DIR}/physicalModeling/frenchBell.dsp"
   "FrenchBellDsp"
   "frenchbell_dsp.h"
 )
 list(APPEND _ALL_FAUST_HEADERS "${GENERATED_HEADER}")
 
+# Generator
 faust_generate_header_once(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dsp/osc.dsp"
+  "${FAUST_EXAMPLES_DIR}/generator/osc.dsp"
   "OscDsp"
   "osc_dsp.h"
 )
 list(APPEND _ALL_FAUST_HEADERS "${GENERATED_HEADER}")
 
+# Reverb
 faust_generate_header_once(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dsp/freeverb.dsp"
+  "${FAUST_EXAMPLES_DIR}/reverb/freeverb.dsp"
   "FreeverbDsp"
   "freeverb_dsp.h"
 )
