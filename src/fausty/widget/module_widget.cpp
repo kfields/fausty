@@ -1,8 +1,9 @@
 #include "imgui.h"
 #include "imnodes.h"
 
-#include "module_widget.h"
 #include <fausty/rack/module/module.h>
+
+#include "module_widget.h"
 
 namespace fausty {
 
@@ -18,7 +19,9 @@ void ModuleWidget::Draw() {
 bool ModuleWidget::DrawWindow() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
     ImGui::Begin(model_->label_, &is_open_);
+    
     DrawChildren();
+
     ImGui::End();
     ImGui::PopStyleVar();
 
